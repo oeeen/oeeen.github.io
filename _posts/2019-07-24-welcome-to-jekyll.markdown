@@ -1,25 +1,22 @@
 ---
-layout: post
-title:  "Welcome to Jekyll!"
+layout: posts
+title:  "Blog Introduction"
 date:   2019-07-24 09:01:59 +0900
 categories: jekyll update
 ---
-You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run `jekyll serve`, which launches a web server and auto-regenerates your site when a file is updated.
 
-To add new posts, simply add a file in the `_posts` directory that follows the convention `YYYY-MM-DD-name-of-post.ext` and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.
+# 블로그 소개
 
-Jekyll also offers powerful support for code snippets:
+일상에 관한 글도 쓰고, 주로 기술적인 내용을 정리하는 용도로 사용합니다.
 
-{% highlight ruby %}
-def print_hi(name)
-  puts "Hi, #{name}"
-end
-print_hi('Tom')
-#=> prints 'Hi, Tom' to STDOUT.
-{% endhighlight %}
+혼자 알고 있는 내용을 공유하며 인터넷의 고수들의 지적을 받으며 잘못된 지식도 고쳐나갈 예정입니다.
 
-Check out the [Jekyll docs][jekyll-docs] for more info on how to get the most out of Jekyll. File all bugs/feature requests at [Jekyll’s GitHub repo][jekyll-gh]. If you have questions, you can ask them on [Jekyll Talk][jekyll-talk].
+남이 알아보기 쉽게 정리하는 것이 쉽지 않기 때문에, 처음에는 알아보기 힘들고 난잡한 글이 작성될 것 같습니다.
 
-[jekyll-docs]: https://jekyllrb.com/docs/home
-[jekyll-gh]:   https://github.com/jekyll/jekyll
-[jekyll-talk]: https://talk.jekyllrb.com/
+하다보면 익숙해지지 않을까 합니다.
+
+그리고.. 그냥 . 가끔 쓰던 일기를 인터넷으로 옮깁니다. (TIL이라는 제목이 되지 않을까)
+
+블로그를 계속 유지하며 포스팅이 계속 될 지는 모르겠습니다. 
+
+일단은 github page가 어떤 방식으로 돌아 가는지 부터 이해할 예정입니다.
