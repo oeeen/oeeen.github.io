@@ -2,7 +2,7 @@
 layout: posts
 title:  "Blog Introduction"
 date:   2019-07-24 09:01:59 +0900
-categories: jekyll update
+categories: etc
 ---
 
 # 블로그 소개
@@ -15,8 +15,8 @@ categories: jekyll update
 
 하다보면 익숙해지지 않을까 합니다.
 
-그리고.. 그냥 . 가끔 쓰던 일기를 인터넷으로 옮깁니다. (TIL이라는 제목이 되지 않을까)
+그리고.. 그냥 . 가끔 쓰던 일기를 인터넷으로 옮깁니다.
 
 블로그를 계속 유지하며 포스팅이 계속 될 지는 모르겠습니다. 
 
-일단은 github page가 어떤 방식으로 돌아 가는지 부터 이해할 예정입니다.
+일단은 해봅시다
