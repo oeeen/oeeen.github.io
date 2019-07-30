@@ -1,11 +1,7 @@
 # main links
 main:
   - title: "Archive"
-    url: /year-archive/
-  - title: "Category"
-    url: /categories/
-  - title: "tag"
-    url: /tags/
+    url: /archive/
   - title: "Programming"
     url: /programming/
   - title: "TIL"
