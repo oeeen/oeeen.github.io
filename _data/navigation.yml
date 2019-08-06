@@ -2,7 +2,9 @@
 main:
   - title: "Archive"
     url: /archive/
-  - title: "Programming"
-    url: /programming/
+  - title: "Git"
+    url: /git/
+  - title: "Etc"
+    url: /etc/
   - title: "TIL"
     url: /til/

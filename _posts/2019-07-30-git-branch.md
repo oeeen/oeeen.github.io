@@ -3,7 +3,7 @@ layout: single
 title:  "ProGit 정리 - Git Branch"
 date:   2019-07-30 23:00:00 +0900
 classes: wide
-categories: Git
+categories: git
 ---
 ## Branch란?
 Git은 데이터를 일련의 스냅샷으로 기록한다.
