@@ -85,17 +85,17 @@ CMD 의 주 목적은 컨테이너 실행하는데 default를 제공 하기 위�
 
 * LABEL - `LABEL <key>=<value> <key>=<value> <key>=<value> ...`
 * EXPOSE - `EXPOSE <port> [<port>/<protocol>...]` ex) EXPOSE 80/udp
-* ENV - 
+* ENV 
 ```
 ENV <key> <value>
 ENV <key>=<value> ...
 ```
-* ADD -
+* ADD
 ```
 ADD [--chown=<user>:<group>] <src>... <dest>
 ADD [--chown=<user>:<group>] ["<src>",... "<dest>"] (this form is required for paths containing whitespace)
 ```
-* COPY -
+* COPY
 ```
 COPY [--chown=<user>:<group>] <src>... <dest>
 COPY [--chown=<user>:<group>] ["<src>",... "<dest>"] (this form is required for paths containing whitespace)
