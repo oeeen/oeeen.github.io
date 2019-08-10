@@ -4,7 +4,9 @@ main:
     url: /archive/
   - title: "Git"
     url: /git/
+  - title: "Web"
+    url: /web/
   - title: "Etc"
     url: /etc/
-  - title: "TIL"
-    url: /til/
+  - title: "Daily Reflection"
+    url: /daily/
