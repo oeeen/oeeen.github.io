@@ -4,6 +4,7 @@ title:  "Linux Command Line"
 date:   2019-08-04 23:00:00 +0900
 classes: wide
 categories: etc
+tag: linux
 ---
 
 # Linux CommandLine 기본 (진짜 기본)

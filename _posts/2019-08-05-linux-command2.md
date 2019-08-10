@@ -4,6 +4,7 @@ title:  "Linux Command Line 2"
 date:   2019-08-05 01:00:00 +0900
 classes: wide
 categories: etc
+tag: linux
 ---
 
 # 명령어들
