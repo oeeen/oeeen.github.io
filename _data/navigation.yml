@@ -8,5 +8,5 @@ main:
     url: /web/
   - title: "Etc"
     url: /etc/
-  - title: "Daily Reflection"
-    url: /daily/
+  - title: "Reflection"
+    url: /reflection/
