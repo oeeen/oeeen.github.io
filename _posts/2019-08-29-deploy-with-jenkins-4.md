@@ -26,7 +26,7 @@ nginx의 proxy_pass를 배포 시점마다 바꿔주고 nginx reload를 하는 �
 
 **Dockerfile**
 
-```
+```dockerfile
 #Dockerfile - docker, docker-compose based on jenkins image
 FROM jenkins/jenkins:lts
 USER root
@@ -56,7 +56,7 @@ USER jenkins
 
 **젠킨스 실행**
 
-```
+```bash
 sudo docker run \
     --name jenkins \
     -itd \
@@ -80,7 +80,7 @@ sudo docker run \
 
 ![build_auto](/assets/img/jenkins/build_auto.png)
 
-```
+```bash
 ./gradlew clean build --info
 chmod +x ./deploy.sh
 ./deploy.sh
@@ -136,7 +136,7 @@ fi
 
 **docker-compose.blue.yml**
 
-```
+```yaml
 version: '3'
 
 services:
@@ -154,7 +154,7 @@ networks:
 
 **docker-compose.green.yml**
 
-```
+```yaml
 version: '3'
 
 services:
@@ -172,7 +172,7 @@ networks:
 
 **docker-compose.db.yml**
 
-```
+```yaml
 version: '3'
 
 networks:
@@ -200,7 +200,7 @@ sunbook 이미지는 다음의 Dockerfile로 만들었다.
 
 **sunbook 이미지용 Dockerfile**
 
-```
+```dockerfile
 FROM openjdk:8
 
 MAINTAINER smjeon <oeeen3@gmail.com>
@@ -258,7 +258,7 @@ nginx 폴더 내부에는 아래 그림처럼 되어있다.
 
 **nginx.conf**
 
-```
+```conf
 user www-data;
 worker_processes auto;
 pid /run/nginx.pid;
@@ -347,7 +347,7 @@ http {
 
 기존 내용에서 변경된 내용만 본다면, 아래와 같다.
 
-```
+```conf
 upstream sunbook {
     server localhost:8081;
     server localhost:8082;
