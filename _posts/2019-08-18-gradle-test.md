@@ -15,7 +15,7 @@ jenkins를 활용해서 우리의 웹 어플리케이션을 배포 해봤다.
 
 build.gradle에 간단하게 추가해줘서 테스트를 돌게 했다.
 
-```
+```groovy
 test {
     useJUnitPlatform()
 }
@@ -27,7 +27,7 @@ testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 
 테스트 코드에서 `@Tag("no")` 이런 식으로 태그를 줄 수 있고, 이 태그에 따라 빌드 시에 테스트를 할 지 안할 지도 설정할 수 있는 것 같다.
 
-```
+```java
 // Test Code
 public class CalculatorJUnit5Test {
     @Tag("slow")

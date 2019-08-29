@@ -61,7 +61,7 @@ printenv 나 set은 alias를 보여주지 않기 때문에 이 alias는 `alias` 
 
 **bashrc**
 
-```
+```bash
 alias l.='ls -d .* --color=auto'
 alias ll='ls -l --color=auto'
 ```

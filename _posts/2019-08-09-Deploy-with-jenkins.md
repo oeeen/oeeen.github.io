@@ -86,28 +86,28 @@ CMD 의 주 목적은 컨테이너 실행하는데 default를 제공 하기 위�
 * LABEL - `LABEL <key>=<value> <key>=<value> <key>=<value> ...`
 * EXPOSE - `EXPOSE <port> [<port>/<protocol>...]` ex) EXPOSE 80/udp
 * ENV 
-```
+```dockerfile
 ENV <key> <value>
 ENV <key>=<value> ...
 ```
 * ADD
-```
+```dockerfile
 ADD [--chown=<user>:<group>] <src>... <dest>
 ADD [--chown=<user>:<group>] ["<src>",... "<dest>"] (this form is required for paths containing whitespace)
 ```
 * COPY
-```
+```dockerfile
 COPY [--chown=<user>:<group>] <src>... <dest>
 COPY [--chown=<user>:<group>] ["<src>",... "<dest>"] (this form is required for paths containing whitespace)
 ```
 * ENTRYPOINT
-```
+```dockerfile
 ENTRYPOINT ["executable", "param1", "param2"] (exec form, preferred)
 ENTRYPOINT command param1 param2 (shell form)
-```
+```dockerfile
 * VOLUME - `VOLUME ["/data"]`
 * USER
-```
+```dockerfile
 USER <user>[:<group>] or
 USER <UID>[:<GID>]
 ```
@@ -116,7 +116,7 @@ USER <UID>[:<GID>]
 * ONBUILD - `ONBUILD [INSTRUCTION]`
 * STOPSIGNAL - `STOPSIGNAL signal`
 * HEALTHCHECK -
-```
+```dockerfile
 HEALTHCHECK [OPTIONS] CMD command (check container health by running a command inside the container)
 HEALTHCHECK NONE (disable any healthcheck inherited from the base image)
 ```
@@ -126,7 +126,7 @@ HEALTHCHECK NONE (disable any healthcheck inherited from the base image)
 
 아래와 같은 Dockerfile 을 만든다. 불필요한 명령어들이 있을 수 있다.
 
-```
+```dockerfile
 # Dokerfile
 FROM jenkins/jenkins:lts
 # jenkins 이미지에서 user를 jenkins로 바꾸는 부분이 있다. 다시 root로..
@@ -156,7 +156,7 @@ USER jenkins
 
 아래 방법으로 docker hub에 푸시 한다.
 
-```
+```bash
 docker login
 # 일련의 작업 필요..
 
@@ -175,7 +175,7 @@ docker hub에 push를 하면 또 약간의 시간이 걸리면서 아래처럼 �
 
 이제 EC2 인스턴스에서 아래와 같은 명령으로 docker가 설치되어 있는 jenkins(oeeen/jenkins:v1)을 실행 할 수 있게 되었다!
 
-```
+```bash
 # 도커 컨테이너 실행 명령어
 sudo docker run 
     --name jenkins \

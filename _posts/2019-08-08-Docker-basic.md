@@ -58,7 +58,7 @@ Ubuntu 이미지가 A + B + C의 집합이라면, ubuntu 이미지를 베이스�
 --name | 컨테이너 이름 설정 (Assign a name to the container)
 
 
-```
+```bash
 sudo docker run --name jenkins -itd -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd)/jenkins_home:/var/jenkins_home -p 8000:8080 -u root
 
 sudo docker exec -it jenkins cat /var/jenkins_home/secrets/initialAdminPassword

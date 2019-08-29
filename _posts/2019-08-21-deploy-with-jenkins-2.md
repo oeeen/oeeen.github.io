@@ -13,7 +13,7 @@ tags: jenkins
 
 지난 번에 docker가 설치된 jenkins 컨테이너 이미지까지 준비를 했다.
 
-```
+```bash
 sudo docker run \
     --name jenkins \
     -itd \
@@ -94,7 +94,7 @@ Github에서 프로젝트를 pull 한 이후에 진행할 것을 shell로 진행
 
 ![project-start7](/assets/img/jenkins/shell_contents.png)
 
-```
+```bash
 ./gradlew clean build
 docker build --tag oeeen/sunbook:dep .
 docker run --name sunbook -d -p 8080:8080 --link mydb:sunbook oeeen/sunbook:dep
@@ -118,7 +118,7 @@ oeeen/sunbook:dep --> 실행할 컨테이너의 이름은 oeeen/sunbook:dep이�
 
 프로젝트 내부의 Dockerfile은 아래와 같다.
 
-```
+```dockerfile
 # Dockerfile
 FROM openjdk:8
 
@@ -132,7 +132,7 @@ CMD java -jar -Dspring.profiles.active=deploy /usr/src/app/sunbook-0.0.1-SNAPSHO
 
 mydb라는 컨테이너는 아래처럼 실행시켰다.
 
-```
+```bash
 sudo docker run -p 3306:3306 \
     -v /home/ubuntu/sql/:/docker-entrypoint-initdb.d \
     -e MYSQL_DATABASE=sunbook 
@@ -148,7 +148,7 @@ ec2의 home directory의 sql 폴더 아래에 있는 .sql을 초기 sql문으로
 
 home directory의 sql 폴더 아래에 sql.sql 이라는 파일을 추가해줬다. 
 
-```
+```bash
 # sql.sql
 create user '[userName]'@'%' identified by '[password]';
 grant all privileges on *.* to '[userName]'@'%';

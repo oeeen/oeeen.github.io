@@ -25,7 +25,7 @@ Git의 브랜치는 커밋 사이를 이동할 수 있는 포인터 라고 생�
 그 브랜치로 checkout 하고 commit을 하면 HEAD가 가리키고 있는 브랜치에만 commit이 쌓인다. 
 
 **예시**
-```
+```bash
 git branch test
 git checkout test
 echo "test branch" > testFile.txt
@@ -75,7 +75,7 @@ test branch와 상관 없이 새로운 Commit A5가 생성된다.
 ## Merge
 위와 같은 상황에서 master branch에 test branch를 merge 해보자.
 
-```
+```bash
 git checkout master
 git merge test
 ```
@@ -151,7 +151,7 @@ Conflict가 발생하면 이 Conflict를 해결 해주면 된다.
 
 Merge를 하지 않고 fetch 해온 리모트 트래킹 브랜치에서 시작하는 새로운 브랜치를 만들려면
 
-```
+```bash
 git checkout -b newbranch명 remote명/branch명
 ```
 
@@ -161,7 +161,7 @@ git checkout -b newbranch명 remote명/branch명
 
 일단 페어의 remote를 alias로 등록하고, 해당 remote에서 pair의 branch를 가져오면 된다.
 
-```
+```bash
 git remote add pair https://github.com/페어의아이디/페어의레포주소.git
 git fetch pair 페어의브랜치명
 
@@ -204,7 +204,7 @@ git checkout -b 원하는브랜치명 pair/페어의원격브랜치명
 ![Merge](/assets/img/gitbranch/5.png)
 
 rebase는 이 merge와 비슷한 방식이다.
-```
+```bash
 git checkout test
 git rebase master
 ```
@@ -215,7 +215,7 @@ git rebase master
 
 그 이후에 master 브랜치에서 merge 명령을 실행해서 Fast-forward 한다.
 
-```
+```bash
 git checkout master
 git merge test
 ```

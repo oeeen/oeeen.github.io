@@ -16,7 +16,7 @@ Entity는 어떤 속성으로 같음을 판단하는 객체?
 
 예를 들어 User라는 Entity가 id(PK), name, email, password를 갖는다고 치면 데이터베이스에서는 id로 user를 구분한다.
 
-```
+```java
 @Entity
 @NoArgsConstructor
 @Getter
@@ -42,7 +42,7 @@ public class User {
 값 자체로 같음을 판단한다. 불변 객체다.
 
 위 코드에서 이어 간다면, 
-```
+```java
 @EqualsAndHashCode
 public class Email {
     private static final String EMAIL_REGEX = "^[_a-zA-Z0-9-.]+@[.a-zA-Z0-9-]+\\.[a-zA-Z]+$";
@@ -62,7 +62,7 @@ public class Email {
 
 또 다른 예시를 들어보면 만약 레이싱 게임 코드를 작성하는데, MovedCar라는 VO가 있고 그 VO는 이름과 현재 위치를 갖는다. 그 이름과 현재 위치가 같다면 두 객체는 같은 객체이다.
 
-```
+```java
 public class MovedCar {
     private final String name;
     private final int currentPosition;

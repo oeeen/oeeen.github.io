@@ -56,7 +56,7 @@ Local ref configured for 'git push':
 push를 하면 로컬의 oeeen 브랜치에서 원격의 oeeen으로 푸시된다.
 
 ## 기타 명령어
-```
+```bash
 git remote rm [alias]
 git remote rename [기존 alias] [new alias]
 git remote set-url [지우길 원하는 alias] —delete [지우길 원하는 주소]

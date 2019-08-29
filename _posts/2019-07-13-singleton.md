@@ -9,7 +9,7 @@ tag: java
 
 ## LazyHolder
 
-```
+```java
 public class Singleton {
     private Singleton() {
 

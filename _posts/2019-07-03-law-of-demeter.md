@@ -42,7 +42,7 @@ tag: java
 
 `value = someObject.getA().getB().getValue();` 이런식이다
 
-```
+```java
 A a = someObject.getA();
 B b = a.getB();
 value = b.getValue();
@@ -53,7 +53,7 @@ value = b.getValue();
 
 우아한테크코스 1단계 중, 사다리게임 코드 리뷰에서 이런 식으로 코드를 짰다.
 
-```
+```java
 public RewardPersonConnector(Ladder ladder, LadderGameData ladderGameData) {
         for (int i = 0; i < ladderGameData.getPerson().getCountOfPerson(); i++) {
             nameToResult.put(ladderGameData.getPerson().getName(i), 
@@ -71,7 +71,7 @@ public RewardPersonConnector(Ladder ladder, LadderGameData ladderGameData) {
 getPerson().getName() + getLadderRewards().getResult() 가 아니라  
 LadderGameData의 클래스 명을 바꾸고 해당 클래스 내부에서
 
-```
+```java
 for (int i = 0; i < person.getCountOfPerson(); i++) {
     nameToResult.put(person.getName(i), ladderGameRewards.getResult(ladder.moveStartToEnd(i + 1) - 1));
 }
