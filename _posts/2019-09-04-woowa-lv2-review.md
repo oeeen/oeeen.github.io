@@ -71,11 +71,11 @@ Web applcation 기본과 웹이 어떤 식으로 구성되고 돌아가는지 �
 - 기존이었으면 그냥 공부하고 시도해보고 끝냈을 것이지만, 팀원들에게 공유를 해줘야 했기 때문에 더 공부하고 정리하여 자료를 만들기도 했다.
 - 그래서 이제 CI/CD 에 대해 좀 더 심도있게 공부해서 크루들에게 소개해 줄 생각이다.
 
-![sunshine poster](/assets/img/reflection/sunshine_poster.jpg)
+![sunshine poster](/assets/img/reflection/sunshine_poster.jpeg)
 
-![sunshine](/assets/img/reflection/sunshine.jpg)
+![sunshine](/assets/img/reflection/sunshine.jpeg)
 
-![sunshine-2](/assets/img/reflection/sunshine2.jpg)
+![sunshine-2](/assets/img/reflection/sunshine2.jpeg)
 
 다 끝나고 하는 말이지만, 재미있었다. 시간이 어떻게 지났는지도 모르게 순식간에 지나갔다. 
 
