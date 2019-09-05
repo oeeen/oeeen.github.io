@@ -1,6 +1,6 @@
 ---
 layout: single
-title:  "Woowacourse Lv.1 Review"
+title:  "우아한테크코스 Lv.1 회고록"
 date:   2019-06-28 23:00:59 +0900
 classes: wide
 categories: reflection
