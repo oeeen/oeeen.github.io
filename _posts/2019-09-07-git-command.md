@@ -7,14 +7,14 @@ categories: git
 tags: git
 ---
 
-# 대화형 명령
+## 대화형 명령
 
 `git add` 명령에 -i나 --interactive 옵션을 주고 실행하면 Git은 아래와 같은 대화형 모드로 들어간다.
 
 ![git add -i](/assets/img/git_interactive/add.png)
 
 현재 Staging Area의 상태를 보여주고 어떤 일을 할 수 있는지 보여준다.
-위처럼 
+위처럼
 
 staged | unstaged
 --- | ---
@@ -33,7 +33,6 @@ Command에서 2나 u를 입력해서 update를 해본다. 그러면 Staging Area
 그리고 아무것도 입력하지 않고 엔터치면 선택한 파일을 Staging Area로 추가한다.
 
 ![after update](/assets/img/git_interactive/after_update.png)
-
 
 ## Revert
 
@@ -69,11 +68,11 @@ y나 n으로 각 부분을 stage 할 지 결정할 수 있다. 어쨌든 일부�
 
 `reset --patch`로 파일 일부만 Stage Area에서 내릴 수도 있고, `checkout --patch`로 파일 일부를 다시 Checkout 할 수 있다. `stash save --patch`로 파일 일부만 Stash 할 수도 있다.
 
-# Stashing과 Cleaning
+## Stashing과 Cleaning
 
-## Stash
+### Stash
 
-Stash는 상당히 자주 사용한다. 
+Stash는 상당히 자주 사용한다.
 
 만약에 어떤 프로젝트에서 한 부분을 담당하고 있다고 하자. 그리고 이제 작업하는 일(A, dev-mybranch)이 있었고, 다른 이슈가 터져서 그 이슈를 수정하기 위해 브랜치(issue branch)를 변경해야 한다고 치자. 그런데 아직 작업하던 일(A)는 완료되지 않았기 때문에 커밋하기가 좀 그렇다.. 그렇지만 파일을 날려버리기에는 너무 아깝다!
 
@@ -82,9 +81,7 @@ Stash는 상당히 자주 사용한다.
 Stash 명령을 사용하면 워킹 디렉토리에서 수정한 파일들만 저장한다.
 Stash는 Modified이면서 Tracked 상태인 파일과 Staging Area에 있는 파일들을 보관해두는 장소이다. 마무리 되지 않은 수정사항들(위의 예에서 A)을 스택에 잠깐 저장해두고 나중에 다시 적용할 수 있다.
 
-팀 프로젝트 할 때 사용했던 경험이 있는데, 
-
-나는 dev branch에서 새로운 기능을 개발하기 위해 dev-feature1과 같은 브랜치를 따서 작업 중이었다. 
+팀 프로젝트 할 때 사용했던 경험이 있는데, 나는 dev branch에서 새로운 기능을 개발하기 위해 dev-feature1과 같은 브랜치를 따서 작업 중이었다.
 
 ![stash](/assets/img/git_interactive/ex_stash.png)
 
@@ -95,17 +92,15 @@ Stash는 Modified이면서 Tracked 상태인 파일과 Staging Area에 있는 �
 그러면 어떻게 해야 할까? 여러 해결 방법이 있지만, 일단 두 가지 경우로 나누어 본다.
 
 1. 만약 내가 dev-feature1 브랜치에서 한 번도 커밋을 하지 않았다면, `git stash` 명령으로 로컬의 변경사항을 저장해두고, `git pull origin dev` 명령으로 다시 dev branch의 내용을 최신화 하고 `git stash pop`으로 변경 사항 수정을 다시 시작하면 된다.
-
 ![after-stash-pull](/assets/img/git_interactive/ex_stash3.png)
-
-2.  dev-feature1 브랜치에서 커밋을 엄청나게 쌓아두었다.. 근데 이 커밋로그들이 필요하진 않다. 그러면 커밋로그들을 모두 날려버리고 stash한 후에 다시 pull 한다.
-
+2. dev-feature1 브랜치에서 커밋을 엄청나게 쌓아두었다.. 근데 이 커밋로그들이 필요하진 않다. 그러면 커밋로그들을 모두 날려버리고 stash한 후에 다시 pull 한다.
 
 ![reset-stash](/assets/img/git_interactive/stash-commit.png)
 
 위와 같은 상황에서 2번 방법으로 이 문제를 해결하려면 다음과 같은 커맨드로 하면 된다.
 
 ```bash
+#!/bin/bash
 $ git reset --soft A3
 $ git stash
 $ git pull origin dev
@@ -116,21 +111,19 @@ $ git stash pop
 
 그렇게 되면 위의 그림에서 현재 내 로컬에는 위 그림에서 B1, B2의 변경 사항까지 모두 가지고 있으면서 remote branch와 동기화까지 완료된 상태이다. 이 방법의 단점은 지금까지 내가 쌓아둔 커밋로그가 사라진다는 것이다. 하지만 불필요한 머지 커밋을 남기고 싶지 않을 때 사용한 방법이다.
 
-
 ## Stash 옵션들
 
-`git stash apply --index` 명령으로 stash하기 전에 staged 상태였던 파일까지 그대로 staged 상태로 만들어준다. 
+`git stash apply --index` 명령으로 stash하기 전에 staged 상태였던 파일까지 그대로 staged 상태로 만들어준다.
 
 `git stash apply` 명령은 stash를 적용하기만 한다. 스택에는 여전히 남아있다. 그렇기 때문에 `git stash drop` 명령으로 해당 stash를 제거 한다.
 
 위 두 명령을 합친 것이 `git stash pop`이다.
 
-`git stash --keep-index`라는 명령도 있다. 이는 이미 Staging Area에 있는 파일은 Stash하지 않는다. 
+`git stash --keep-index`라는 명령도 있다. 이는 이미 Staging Area에 있는 파일은 Stash하지 않는다.
 
 `git stash --include-untracked` 또는 `git stash -u` 명령으로 추적중이지 않은 파일을 같이 stash 할 수 있다.
 
 `git stash --patch` 명령으로 변경된 데이터 중 골라서 stash 할 수 있게 된다.
-
 
 **Stash를 적용한 브랜치 만들기**
 Stash를 꺼낼 때.. 충돌이 일어날 수 있다. `git stash branch` 명령으로 stash할 당시의 커밋을 checkout 한 후 새로운 브랜치를 만들고 여기에 적용한다. 이 명령은 브랜치를 새로 만들고 stash를 복원해준다.
