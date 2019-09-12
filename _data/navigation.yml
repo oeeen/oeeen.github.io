@@ -1,12 +1,14 @@
 # main links
 main:
   - title: "Archive"
-    url: /archive/
-  - title: "Git"
+    url: /categories/
+  - title: "Tag"
+    url: /tags/
+  - title: "GIT"
     url: /git/
-  - title: "Web"
+  - title: "WEB"
     url: /web/
-  - title: "Etc"
+  - title: "etc"
     url: /etc/
   - title: "Reflection"
     url: /reflection/
