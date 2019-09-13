@@ -7,9 +7,9 @@ categories: web
 tags: jenkins docker nginx
 ---
 
-# 나의 웹 어플리케이션을 jenkins로 배포 해보자 - 4
+## 나의 웹 어플리케이션을 jenkins로 배포 해보자 - 4
 
-이번에는 nginx를 이용해서 무중단 배포를 흉내 낼 예정이다. 
+이번에는 nginx를 이용해서 무중단 배포를 흉내 낼 예정이다.
 
 nginx의 proxy_pass를 배포 시점마다 바꿔주고 nginx reload를 하는 것이 좋은 방식인 것 같지만! 현재 상황에서는 굉장한 어려움에 처할 수 있으므로 패스한다.
 
@@ -18,13 +18,14 @@ nginx의 proxy_pass를 배포 시점마다 바꿔주고 nginx reload를 하는 �
 무중단 배포 흉내내기는 단계 별로 진행 된다.
 
 ## 1. docker, docker-compose가 깔려있는 jenkins 이미지
+
 일단 이전까지 사용했던 jenkins 이미지에 docker-compose가 추가로 설치된 이미지가 필요하다.
 
 그래서 이전에 만들었던 oeeen/jenkins:v2에서 docker-compose 도 설치 한 image를 만드는 Dockerfile을 만들었다.
 
 도커 compose 설치법: [docker-compose-install](https://docs.docker.com/compose/install/)
 
-**Dockerfile**
+### Dockerfile
 
 ```dockerfile
 #Dockerfile - docker, docker-compose based on jenkins image
@@ -50,11 +51,11 @@ RUN usermod -a -G docker jenkins
 USER jenkins
 ```
 
-`sudo docker build -t oeeen/jenkins:v3 .` 를 실행해서 이미지를 빌드하고, `sudo docker push oeeen/jenkins:v3` 로 docker hub에 push 한다. 
+`sudo docker build -t oeeen/jenkins:v3 .` 를 실행해서 이미지를 빌드하고, `sudo docker push oeeen/jenkins:v3` 로 docker hub에 push 한다.
 
 그리고 다시 jenkins를 실행 시킨다!
 
-**젠킨스 실행**
+### 젠킨스 실행
 
 ```bash
 sudo docker run \
@@ -81,6 +82,8 @@ sudo docker run \
 ![build_auto](/assets/img/jenkins/build_auto.png)
 
 ```bash
+#!/bin/bash
+
 ./gradlew clean build --info
 chmod +x ./deploy.sh
 ./deploy.sh
@@ -90,7 +93,7 @@ deploy.sh는 project 디렉토리에 담아두고 같이 푸시했다.
 
 deploy.sh 파일 내용은 다음과 같다.
 
-```
+```bash
 #!/bin/bash
 
 DOCKER_APP_NAME=sunbookApp
@@ -125,7 +128,7 @@ fi
 간단하게 설명하면,
 
 1. DB가 존재하지 않으면 DB compose로 db 컨테이너를 띄운다. db가 있으면 그냥 넘어간다.
-2. blue라는 이름의 서버가 떠있으면 green이라는 이름의 서버를 띄운다. 
+2. blue라는 이름의 서버가 떠있으면 green이라는 이름의 서버를 띄운다.
 3. 10초 기다린다.
 4. 기존에 떠있던 blue라는 이름의 서버를 내린다.
 5. 반대도 동일하다. (green이 있으면 blue를 띄우고 green을 내린다.)
@@ -134,7 +137,7 @@ fi
 
 각 파일들을 살펴보면
 
-**docker-compose.blue.yml**
+### docker-compose.blue.yml
 
 ```yaml
 version: '3'
@@ -152,7 +155,7 @@ networks:
       name: mydb
 ```
 
-**docker-compose.green.yml**
+### docker-compose.green.yml
 
 ```yaml
 version: '3'
@@ -170,7 +173,7 @@ networks:
       name: mydb
 ```
 
-**docker-compose.db.yml**
+### docker-compose.db.yml
 
 ```yaml
 version: '3'
@@ -198,7 +201,7 @@ services:
 
 sunbook 이미지는 다음의 Dockerfile로 만들었다.
 
-**sunbook 이미지용 Dockerfile**
+### sunbook 이미지용 Dockerfile
 
 ```dockerfile
 FROM openjdk:8
@@ -214,9 +217,9 @@ CMD ["start-server.sh"]
 
 먼저 `/home/ubuntu/deploy/sunbook` 디렉토리를 만들어준다. 그리고 `~/deploy` 디렉토리 내부에 start-server.sh라는 파일이 필요한데, 이 파일의 내용은 다음과 같다.
 
-**start-server.sh**
+### start-server.sh
 
-```
+```bash
 #!/bin/bash
 
 java -jar -Dspring.profiles.active=deploy /usr/src/app/sunbook-0.0.1-SNAPSHOT.jar
@@ -224,9 +227,9 @@ java -jar -Dspring.profiles.active=deploy /usr/src/app/sunbook-0.0.1-SNAPSHOT.ja
 
 이 파일에서 실제로 서버를 띄운다.
 
-위의 Dockerfile 을 `sudo docker build -t sunbook .` 명령으로 빌드 한다. 
+위의 Dockerfile 을 `sudo docker build -t sunbook .` 명령으로 빌드 한다.
 
-Database는 초기 셋팅 그대로 만든다. 
+Database는 초기 셋팅 그대로 만든다.
 
 대신 network는 blue, green 서버와 통신하기 위해서 하나의 네트워크로 묶어주었다.
 
@@ -256,7 +259,7 @@ nginx 폴더 내부에는 아래 그림처럼 되어있다.
 
 이 디렉토리에서 nginx.conf 파일을 바꾼다.
 
-**nginx.conf**
+### nginx.conf
 
 ```conf
 user www-data;
@@ -266,80 +269,80 @@ include /etc/nginx/modules-enabled/*.conf;
 
 
 events {
-	worker_connections 768;
-	# multi_accept on;
+  worker_connections 768;
+  # multi_accept on;
 }
 
 http {
-	upstream sunbook {
-	    server localhost:8081;
-	    server localhost:8082;
-	}
+  upstream sunbook {
+      server localhost:8081;
+      server localhost:8082;
+  }
 
-	sendfile on;
-	tcp_nopush on;
-	tcp_nodelay on;
-	keepalive_timeout 65;
-	types_hash_max_size 2048;
-	# server_tokens off;
+  sendfile on;
+  tcp_nopush on;
+  tcp_nodelay on;
+  keepalive_timeout 65;
+  types_hash_max_size 2048;
+  # server_tokens off;
 
-	server {
-    	    listen 80;
+  server {
+          listen 80;
 
-    	    access_log /var/log/nginx/ec2-nginx.log;
-    	    error_log /var/log/nginx/ec2-nginx-error.log;
+          access_log /var/log/nginx/ec2-nginx.log;
+          error_log /var/log/nginx/ec2-nginx-error.log;
 
-    	    proxy_max_temp_file_size 0;
-    	    proxy_buffering off;
+          proxy_max_temp_file_size 0;
+          proxy_buffering off;
 
-            client_max_body_size 100M;
+          client_max_body_size 100M;
 
-    	    root /usr/src/app/public;
+          root /usr/src/app/public;
 
-    	    location / {
-	        proxy_pass http://sunbook;
-	    	proxy_set_header X-Real-IP $remote_addr;
-	    	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-	    	proxy_set_header Host $http_host;
-            }
+          location / {
+              proxy_pass http://sunbook;
+              proxy_set_header X-Real-IP $remote_addr;
+              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+              proxy_set_header Host $http_host;
+          }
         }
 
-	include /etc/nginx/mime.types;
-	default_type application/octet-stream;
+  include /etc/nginx/mime.types;
+  default_type application/octet-stream;
 
-	##
-	# SSL Settings
-	##
+  ##
+  # SSL Settings
+  ##
 
-	ssl_protocols TLSv1 TLSv1.1 TLSv1.2; # Dropping SSLv3, ref: POODLE
-	ssl_prefer_server_ciphers on;
+  ssl_protocols TLSv1 TLSv1.1 TLSv1.2; # Dropping SSLv3, ref: POODLE
+  ssl_prefer_server_ciphers on;
 
-	##
-	# Logging Settings
-	##
+  ##
+  # Logging Settings
+  ##
 
-	access_log /var/log/nginx/access.log;
-	error_log /var/log/nginx/error.log;
+  access_log /var/log/nginx/access.log;
+  error_log /var/log/nginx/error.log;
 
-	##
-	# Gzip Settings
-	##
+  ##
+  # Gzip Settings
+  ##
 
-	gzip on;
+  gzip on;
 
-	# gzip_vary on;
-	# gzip_proxied any;
-	# gzip_comp_level 6;
-	# gzip_buffers 16 8k;
-	# gzip_http_version 1.1;
-	# gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+  # gzip_vary on;
+  # gzip_proxied any;
+  # gzip_comp_level 6;
+  # gzip_buffers 16 8k;
+  # gzip_http_version 1.1;
+  # gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
 
-	##
-	# Virtual Host Configs
-	##
+  ##
+  # Virtual Host Configs
+  ##
 
-	#include /etc/nginx/conf.d/*.conf;
-	#include /etc/nginx/sites-enabled/*;
+  #include /etc/nginx/conf.d/*.conf;
+  #include /etc/nginx/sites-enabled/*;
 }
 ```
 
@@ -365,7 +368,7 @@ location / {
 
 원래는 load balancing을 위해 두는 것으로 알고 있는데, 나는 무중단 배포 흉내내기를 위해 사용하기로 했다.
 
-그리고 80포트의 /로 들어오는 모든 요청을 http://sunbook 으로 돌린다. 
+그리고 80포트의 /로 들어오는 모든 요청을 http://sunbook 으로 돌린다.
 
 http://[ec2 ip]:80으로 들어오는 모든 요청은 http://[ec2 ip]:8081, http://[ec2 ip]:8082로 upstream에 설정한 설정값에 따라 load balancing 된다.
 
@@ -388,8 +391,9 @@ jojoldu님 블로그에서 하신 방식 처럼 proxy_pass에 들어가는 값�
 
 ---
 
-참고자료: 
+참고자료:
+
 * [jojoldu님 블로그](https://jojoldu.tistory.com/267)
 * [subicura님 블로그](https://subicura.com/2016/06/07/zero-downtime-docker-deployment.html)
 * [jeff0720님 블로그](https://velog.io/@jeff0720/Travis-CI-AWS-CodeDeploy-Docker-%EB%A1%9C-%EB%B0%B0%ED%8F%AC-%EC%9E%90%EB%8F%99%ED%99%94-%EB%B0%8F-%EB%AC%B4%EC%A4%91%EB%8B%A8-%EB%B0%B0%ED%8F%AC-%ED%99%98%EA%B2%BD-%EA%B5%AC%EC%B6%95%ED%95%98%EA%B8%B0-2)
-* [도커 컴포즈를 활용하여 완벽한 개발 환경 구성하기](https://www.44bits.io/ko/post/almost-perfect-development-environment-with-docker-and-docker-compose#%EB%8F%84%EC%BB%A4-%EC%BB%B4%ED%8F%AC%EC%A6%88%EB%A1%9C-%EA%B0%9C%EB%B0%9C-%ED%99%98%EA%B2%BD-%EA%B5%AC%EC%84%B1%ED%95%98%EA%B8%B0) 
+* [도커 컴포즈를 활용하여 완벽한 개발 환경 구성하기](https://www.44bits.io/ko/post/almost-perfect-development-environment-with-docker-and-docker-compose#%EB%8F%84%EC%BB%A4-%EC%BB%B4%ED%8F%AC%EC%A6%88%EB%A1%9C-%EA%B0%9C%EB%B0%9C-%ED%99%98%EA%B2%BD-%EA%B5%AC%EC%84%B1%ED%95%98%EA%B8%B0)
