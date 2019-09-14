@@ -1,6 +1,6 @@
 ---
 layout: single
-title:  "자바스크립트 기초"
+title:  "자바스크립트 변수와 값"
 date:   2019-09-14 18:55:59 +0900
 classes: wide
 categories: etc
