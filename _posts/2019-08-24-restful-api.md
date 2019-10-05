@@ -9,7 +9,8 @@ tags: restful web rmm
 
 전에 취업준비 할 때도 자기소개서에도 썼었고, 많이 들어보기만 했던 개념이지만 확실하게 무엇인지는 모르고 지나쳤고 정리한 적도 없었던 개념이다. 구글링하며 얻은 정보들을 정리 해 둔다.
 
-## REST ?
+## REST
+
 REST는 REpresentational State Transfer의 약자이다. 분산 하이퍼미디어 시스템을 위한 소프트웨어 아키텍처의 한 형식이다.
 
 엄격한 의미의 REST는 네트워크 아키텍처 원리의 모음이다. `네트워크 아키텍처 원리`란 자원을 정의하고 자원에 대한 주소를 지정하는 방법 전반을 일컫는다.
@@ -26,8 +27,8 @@ REST는 REpresentational State Transfer의 약자이다. 분산 하이퍼미디�
 
 그래서 RESTful API는 REST의 특징을 가진 API라고 할 수 있다. REST한 구조에 맞는 API 인 듯 하다.
 
-
 ## REST 구성 요소
+
 1. 자원(Resource): URI
    1. 모든 자원에 고유한 ID가 존재.
    2. /groups/:group_id 형식
@@ -36,7 +37,6 @@ REST는 REpresentational State Transfer의 약자이다. 분산 하이퍼미디�
 3. 표현(Representation of Resource)
    1. Client가 자원의 상태에 대한 조작 요청을 하면 Server는 적절한 응답(Representation)을 보낸다.
    2. 하나의 자원은 JSON, XML, TEXT, RSS 등 여러 형태의 Representation으로 나타낸다.
-
 
 ## REST 특징
 
@@ -60,7 +60,6 @@ REST는 REpresentational State Transfer의 약자이다. 분산 하이퍼미디�
 6. Uniform Interface(인터페이스 일관성)
    1. URI로 지정한 Resource에 대한 조작을 일관된 인터페이스로 수행한다.
    2. 특정 언어나 기술에 종속되지 않고 HTTP 표준 프로토콜에 따르는 모든 플랫폼에서 사용가능하다.
-
 
 ## Richardson Maturity Model
 
@@ -87,7 +86,6 @@ Remote Procedure Invocation에 기반한 원격 통신 메커니즘을 위한 �
 
 이런 식으로 단순히 통신 하는 것이다. 이렇게 하는 통신에는 xml, json, yaml, key-value 등 어떤 형식이든 가능하다.
 
-
 > Level 1: Resources
 When your API can distinguish between different resources, it might be level 1. This level uses multiple URIs, where every URI is the entry point to a specific resource. Instead of going through http://example.org/articles, you actually distinguish between http://example.org/article/1 and http://example.org/article/2. Still, this level uses only one single method like POST.
 
@@ -95,7 +93,7 @@ Level 1에서는 리소스를 도입한다. 여기서는 요청을 단일 서비
 
 ![level1](/assets/img/rest/level1.png)
 
-```
+```xml
 POST /doctors/martin HTTP/1.1
 [various other headers]
 
@@ -104,7 +102,7 @@ POST /doctors/martin HTTP/1.1
 
 level 0 에서 예약 가능 시간은 level 1에서는 이제 리소스이다.
 
-```
+```xml
 HTTP/1.1 200 OK
 [various headers]
 
@@ -113,9 +111,10 @@ HTTP/1.1 200 OK
     <slot id = "5678" doctor = "martin" start = "1600" end = "1650"/>
 </openSlotList>
 ```
+
 이런 응답이 온다고 하면 이제 다음 요청은 이 slot이라는 resource로 요청을 보내는 것이다.
 
-```
+```xml
 POST /slots/1234 HTTP/1.1
 [various other headers]
 
@@ -125,7 +124,8 @@ POST /slots/1234 HTTP/1.1
 ```
 
 예약이 성공하면 전과 비슷한 응답을 받는다.
-```
+
+```xml
 HTTP/1.1 200 OK
 [various headers]
 
@@ -137,7 +137,6 @@ HTTP/1.1 200 OK
 
 > Level 2: HTTP verbs
 To be honest, I don't like this level. This is because this level suggests that in order to be truly RESTful, your API MUST use HTTP verbs. It doesn't. REST is completely protocol agnostic, so if you want to use a different protocol, your API can still be RESTful.
-
 > This level indicates that your API should use the protocol properties in order to deal with scalability and failures. Don't use a single POST method for all, but make use of GET when you are requesting resources, and use the DELETE method when you want to delete a resources. Also, use the response codes of your application protocol. Don't use 200 (OK) code when something went wrong for instance. By doing this for the HTTP application protocol, or any other application protocol you like to use, you have reached level 2.
 
 ![level2](/assets/img/rest/level2.png)
@@ -152,7 +151,7 @@ HTTP는 GET을 상태를 크게 변화시키지 않는 안전한 오퍼레이션
 
 이제 예약을 하려면 POST나 PUT이 필요하다. POST를 쓴다면 다음과 같다.
 
-```
+```xml
 POST /slots/1234 HTTP/1.1
 [various other headers]
 
@@ -162,7 +161,8 @@ POST /slots/1234 HTTP/1.1
 ```
 
 이에 대한 응답은 이제 201 response code와 같이 온다.
-```
+
+```xml
 HTTP/1.1 201 Created
 Location: slots/1234/appointment
 [various headers]
@@ -172,10 +172,10 @@ Location: slots/1234/appointment
     <patient id = "seongmo"/>
 </appointment>
 ```
-201은 클라이언트(나)가 나중에 그 리소스의 현재 상태를 GET 할 수 있도록 URI를 갖는 location 속성을 포함한다. 
 
-이 단계에서는 이처럼 HTTP Response code, HTTP Method를 사용한다. 
+201은 클라이언트(나)가 나중에 그 리소스의 현재 상태를 GET 할 수 있도록 URI를 갖는 location 속성을 포함한다.
 
+이 단계에서는 이처럼 HTTP Response code, HTTP Method를 사용한다.
 
 > Level 3: Hypermedia controls
 Level 3, the highest level, uses HATEOAS to deal with discovering the possibilities of your API towards the clients. More information about HATEOAS can be found below.
@@ -189,7 +189,8 @@ Level 3, the highest level, uses HATEOAS to deal with discovering the possibilit
 `GET /doctors/martin/slots?date=20100104&status=open HTTP/1.1`
 
 하지만 응답은 새로운 요소를 가지고 있다.
-```
+
+```xml
 HTTP/1.1 200 OK
 [various headers]
 
@@ -211,7 +212,7 @@ HTTP/1.1 200 OK
 
 예약 요청은 레벨 2와 동일하다.
 
-```
+```xml
 POST /slots/1234 HTTP/1.1
 [various other headers]
 
@@ -222,7 +223,7 @@ POST /slots/1234 HTTP/1.1
 
 이 다음 응답은 더 복잡해진다. 이제 예약 이후에 할 수 있는 일들에 대한 하이퍼미디어 컨트롤이 포함된다.
 
-```
+```xml
 HTTP/1.1 201 Created
 Location: http://royalhope.nhs.uk/slots/1234/appointment
 [various headers]
@@ -239,14 +240,15 @@ Location: http://royalhope.nhs.uk/slots/1234/appointment
 </appointment>
 ```
 
-장점은 
+장점은
+
 1. 서버가 클라이언트에 문제를 일으키지 않고 URI scheme을 변경할 수 있다.
 2. 클라이언트 개발자가 프로토콜을 탐색할 수 있도록 돕는다.
 3. 새로운 기능의 추가를 알리기 쉽다. (링크를 추가하면 된다.)
 
 RMM이 REST의 요소가 무엇인지 생각하는 좋은 방법이지만 REST 그 자체의 레벨 정의는 아니다.
 
-## RESTful ?
+## RESTful 이란
 
 * RESTful은 REST라는 아키텍처를 구현하는 웹 서비스를 나타내기 위해 사용되는 용어이다.
 * 이해하기 쉽고 사용하기 쉬운 REST API를 만들어야 한다.
@@ -266,10 +268,10 @@ Resource create | POST | /resource
 Resource 하나 Update | PUT | /resource/:id
 Resource 하나 Delete | DELETE | /resource/:id
 
-
 ---
 
-### 참고 자료 : 
+## 참고 자료
+
 * [REST COOKBOOK](http://restcookbook.com/Miscellaneous/richardsonmaturitymodel/)
 * [RMM - Martin Fowler](https://martinfowler.com/articles/richardsonMaturityModel.html)
 * [RMM - 한글화 버전](https://jinson.tistory.com/190)
