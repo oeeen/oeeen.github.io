@@ -6,12 +6,12 @@ classes: wide
 categories: web
 ---
 
-# Docker Basic
+## Docker Basic
 
 도커는 컨테이너 기반의 오픈소스 가상화 플랫폼이다.
 
--   격리된 공간에서 프로세스가 동작하는 기술.
--   가상화 기술의 하나지만 기존 방식과는 차이가 있다.
+- 격리된 공간에서 프로세스가 동작하는 기술.
+- 가상화 기술의 하나지만 기존 방식과는 차이가 있다.
 
 전가상화든 반가상화든 추가적인 OS를 설치하여 가상화 하는 방법은 성능 문제가 있어서, 이를 개선 하기 위해 프로세스를 격리하는 방식이 등장했다.
 
@@ -54,9 +54,8 @@ Ubuntu 이미지가 A + B + C의 집합이라면, ubuntu 이미지를 베이스�
 -e | 환경변수 설정. (예를 들어 mysql을 사용한다고 할때 root의 패스워드 설정이라거나,, 여러 환경변수를 설정할 수 있다.) - (Set environment variables)
 -v | 볼륨 연결. (Container와 나의 로컬 서버의 볼륨을 연결해줄 수 있다. 그러니까 docker를 띄운 그 서버에서 container의 해당 볼륨을 접근할 수 있게 된다) - (Bind mount a volume)
 -p | 포트 연결. (Container의 포트와 호스트의 포트를 연결? 매핑 해준다고 생각하면 된다. ex. 8000:8080) - (Publish a container's port(s) to the host)
--u | Username or UID 
+-u | Username or UID
 --name | 컨테이너 이름 설정 (Assign a name to the container)
-
 
 ```bash
 sudo docker run --name jenkins -itd -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd)/jenkins_home:/var/jenkins_home -p 8000:8080 -u root
