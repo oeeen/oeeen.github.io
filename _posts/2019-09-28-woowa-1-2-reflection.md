@@ -1,6 +1,6 @@
 ---
 layout: single
-title:  "우아한테크코스 1, 2단계 피드백 회고"
+title:  "[우아한테크코스] 1, 2단계 피드백"
 date:   2019-09-28 10:00:59 +0900
 classes: wide
 categories: reflection
