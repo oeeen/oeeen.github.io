@@ -7,9 +7,9 @@ categories: git
 tags: git
 ---
 
-## 빠르게 방법만 원하시는 분은 맨 밑에 세 줄 정리를 보시면 됩니다
-
 우아한테크코스의 woowacourse 브랜치에 Pull Request 날린 이후에 Step2 미션을 진행하기 전 커밋 로그를 한 줄로 예쁘게 rebase를 하고 싶을 때 방법을 정리해둔 글입니다.
+
+***바쁘신 분은 맨 밑에 세 줄 정리만 보시면 됩니다**
 
 ## Rebase
 
