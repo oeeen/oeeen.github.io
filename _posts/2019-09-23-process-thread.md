@@ -92,7 +92,7 @@ Process State에 대해 알아볼 내용도 많이 있지만, 이 포스팅에�
 
 ## 참고 자료
 
-- [https://ko.wikipedia.org/wiki/%EC%8A%A4%EB%A0%88%EB%93%9C_(%EC%BB%B4%ED%93%A8%ED%8C%85)](https://ko.wikipedia.org/wiki/%EC%8A%A4%EB%A0%88%EB%93%9C_(%EC%BB%B4%ED%93%A8%ED%8C%85))
+- [WIKI - Thread](https://ko.wikipedia.org/wiki/%EC%8A%A4%EB%A0%88%EB%93%9C_(%EC%BB%B4%ED%93%A8%ED%8C%85))
 - [https://magi82.github.io/process-thread/](https://magi82.github.io/process-thread/)
 - [https://gmlwjd9405.github.io/2018/09/14/process-vs-thread.html](https://gmlwjd9405.github.io/2018/09/14/process-vs-thread.html)
 - [https://brunch.co.kr/@kd4/3](https://brunch.co.kr/@kd4/3)
