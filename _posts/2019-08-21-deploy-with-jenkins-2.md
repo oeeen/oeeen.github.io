@@ -7,7 +7,7 @@ categories: web
 tags: jenkins
 ---
 
-# 나의 웹 어플리케이션을 jenkins로 배포 해보자 - 2
+## 나의 웹 어플리케이션을 jenkins로 배포 해보자 - 2
 
 ## Jenkins 설치
 
@@ -44,7 +44,6 @@ sudo docker run \
 
 이 화면에서는 젠킨스가 추천해주는 플러그인들을 설치 하기로 한다.
 
-
 ![jenkins-install](/assets/img/jenkins/jenkins_installing.png)
 
 위와 같은 화면이 나오면서 모두 설치가 완료 될 때까지 기다린다.
@@ -57,9 +56,6 @@ sudo docker run \
 ![jenkins-start2](/assets/img/jenkins/jenkins_start2.png)
 
 위와 같은 화면들을 거치면서 쭉쭉 진행하면 된다.
-
-
-
 
 ## Jenkins Project 생성
 
@@ -100,21 +96,14 @@ docker build --tag oeeen/sunbook:dep .
 docker run --name sunbook -d -p 8080:8080 --link mydb:sunbook oeeen/sunbook:dep
 ```
 
-> `./gradlew clean build` gradle로 clean 후에 build를 진행한다.
-
-> `docker build --tag oeeen/sunbook:dep .` 프로젝트에 Dockerfile을 넣어 놓았기 때문에 Dockerfile 빌드를 시작한다.
-
-> `docker run --name sunbook -d -p 8080:8080 --link mydb:sunbook oeeen/sunbook:dep`
-
---name sunbook --> 이름은 sunbook으로 하고
-
--d --> deamon으로 실행시키면서, 
-
--p 8080:8080 --> 컨테이너의 8080포트를 서버의 8080포트에 매핑시키고 
-
---link mydb:sunbook --> mydb라는 컨테이너를 link하는데 sunbook container 내부에서는 sunbook으로 연결되게 해놓는데
-
-oeeen/sunbook:dep --> 실행할 컨테이너의 이름은 oeeen/sunbook:dep이다.
+1. `./gradlew clean build` gradle로 clean 후에 build를 진행한다.
+2. `docker build --tag oeeen/sunbook:dep .` 프로젝트에 Dockerfile을 넣어 놓았기 때문에 Dockerfile 빌드를 시작한다.
+3. `docker run --name sunbook -d -p 8080:8080 --link mydb:sunbook oeeen/sunbook:dep`
+   - --name sunbook --> 이름은 sunbook으로 하고
+   - -d --> deamon으로 실행시키면서,
+   - -p 8080:8080 --> 컨테이너의 8080포트를 서버의 8080포트에 매핑시키고
+   - --link mydb:sunbook --> mydb라는 컨테이너를 link하는데 sunbook container 내부에서는 sunbook으로 연결되게 해놓는데
+   - oeeen/sunbook:dep --> 실행할 컨테이너의 이름은 oeeen/sunbook:dep이다.
 
 프로젝트 내부의 Dockerfile은 아래와 같다.
 
@@ -129,13 +118,12 @@ WORKDIR /usr/src/app
 CMD java -jar -Dspring.profiles.active=deploy /usr/src/app/sunbook-0.0.1-SNAPSHOT.jar
 ```
 
-
 mydb라는 컨테이너는 아래처럼 실행시켰다.
 
 ```bash
 sudo docker run -p 3306:3306 \
     -v /home/ubuntu/sql/:/docker-entrypoint-initdb.d \
-    -e MYSQL_DATABASE=sunbook 
+    -e MYSQL_DATABASE=sunbook
     -e MYSQL_ALLOW_EMPTY_PASSWORD=yes \
     -e MYSQL_ROOT_PASSWORD=root \
     -itd \
@@ -145,8 +133,7 @@ sudo docker run -p 3306:3306 \
 
 ec2의 home directory의 sql 폴더 아래에 있는 .sql을 초기 sql문으로 실행 한다.
 
-
-home directory의 sql 폴더 아래에 sql.sql 이라는 파일을 추가해줬다. 
+home directory의 sql 폴더 아래에 sql.sql 이라는 파일을 추가해줬다.
 
 ```bash
 # sql.sql
@@ -157,16 +144,13 @@ flush privileges;
 
 [userName]을 가진 user를 추가 해주고, password를 설정 해주고 해당 유저에게 모든 권한을 주었다. 원래는 권한을 주는 것도 적절한 선에서 주어야 하는데 지금은 구동시키는 것이 주 목적이기 때문에 모든 권한을 줬다.
 
-
 ![build-now](/assets/img/jenkins/build_now.png)
 
 그렇게 한 후 Build Now를 누른다.
 
-
 ![front-build](/assets/img/jenkins/project_sunbook.png)
 
 아래 Build History에 나오는 숫자를 눌러서 빌드 상태를 볼 수 있다.
-
 
 ![build1](/assets/img/jenkins/build1.png)
 
@@ -178,11 +162,9 @@ flush privileges;
 
 ![build3](/assets/img/jenkins/build3.png)
 
-
 결국 Finished: SUCCESS 했다.
 
 이제 [서버IP]:8080 으로 접속해보면 우리가 만든 application이 떠있는 것을 알 수 있다!
-
 
 다음으로 할 일은 Github push가 들어오면 그것으로 build triggering 되도록 변경 해야 한다.
 

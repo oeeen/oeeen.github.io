@@ -7,7 +7,7 @@ categories: web
 tags: jenkins
 ---
 
-# 나의 웹 어플리케이션을 jenkins로 배포 해보자 - 3
+## 나의 웹 어플리케이션을 jenkins로 배포 해보자 - 3
 
 이전 포스트에서는 젠킨스를 활용해서 git clone -> build -> 서버 띄우기 까지 진행했다.
 
@@ -41,7 +41,6 @@ webhooks 를 누르고 Add webhook을 눌러준다.
 
 이 문제는 앞으로 무중단 배포를 진행하면서 실행 되고 있는 포트가 아닌 다른 포트로 어플리케이션을 띄우는 방식으로 해결할 예정이다.
 
-
 ## 젠킨스에 access token 추가. (단순 푸시 이벤트 후킹에는 **필요 없다**)
 
 젠킨스에 내 계정에 접근할 수 있는 권한을 주기 위해서 깃허브에 personal access token을 설정한다.
@@ -69,7 +68,6 @@ Personal Access Token을 누른다.
 새로운 토큰이 발급된다. (이 토큰은 이 페이지에 재 접속한다고 해도 다시 볼 수 없으니.. 따로 적어놓거나 해야할 것 같다.)
 
 ![github5](/assets/img/jenkins/github_5.png)
-
 
 이제 젠킨스 관리 페이지에 들어간다.
 

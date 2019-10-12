@@ -77,7 +77,7 @@ Remote Procedure Invocation에 기반한 원격 통신 메커니즘을 위한 �
 
 그냥 level0 에서는 단순히 병원에 예약하는 것과 동일 하게 생각 할 수 있다.
 
-나는 병원에 예약을 하기 위해서 병원에 예약 가능한 시간을 알아야 한다. 
+나는 병원에 예약을 하기 위해서 병원에 예약 가능한 시간을 알아야 한다.
 
 나 -> 병원: 예약 가능한 시간 요청
 병원 -> 나: 예약 가능한 시간 응답 (예를 들어 14시-14시 50분, 16시-16시 50분)
@@ -87,7 +87,7 @@ Remote Procedure Invocation에 기반한 원격 통신 메커니즘을 위한 �
 이런 식으로 단순히 통신 하는 것이다. 이렇게 하는 통신에는 xml, json, yaml, key-value 등 어떤 형식이든 가능하다.
 
 > Level 1: Resources
-When your API can distinguish between different resources, it might be level 1. This level uses multiple URIs, where every URI is the entry point to a specific resource. Instead of going through http://example.org/articles, you actually distinguish between http://example.org/article/1 and http://example.org/article/2. Still, this level uses only one single method like POST.
+When your API can distinguish between different resources, it might be level 1. This level uses multiple URIs, where every URI is the entry point to a specific resource. Instead of going through `http://example.org/articles`, you actually distinguish between `http://example.org/article/1` and `http://example.org/article/2`. Still, this level uses only one single method like POST.
 
 Level 1에서는 리소스를 도입한다. 여기서는 요청을 단일 서비스 엔드포인트로 보내는 것이 아니라, 개별 리소스와 통신한다.
 
@@ -147,7 +147,7 @@ Level 2에서는 HTTP 메소드를 잘 사용한다.
 
 GET /doctors/martin/slots?date=20190824&status=open HTTP/1.1
 
-HTTP는 GET을 상태를 크게 변화시키지 않는 안전한 오퍼레이션이라고 본다. 그래서 어떤 순서로 언제 호출 되어도 매번 같은 결과를 얻을 수 있어야 한다. 그렇기 때문에 이제 캐싱을 할 수 있다. 
+HTTP는 GET을 상태를 크게 변화시키지 않는 안전한 오퍼레이션이라고 본다. 그래서 어떤 순서로 언제 호출 되어도 매번 같은 결과를 얻을 수 있어야 한다. 그렇기 때문에 이제 캐싱을 할 수 있다.
 
 이제 예약을 하려면 POST나 PUT이 필요하다. POST를 쓴다면 다음과 같다.
 
