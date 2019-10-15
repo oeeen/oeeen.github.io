@@ -23,11 +23,13 @@ tags: web
   - 최종 단계는 대부분의 경우에 eager다. (iterator(), spliterator()만 아니다)
   - Parallelism
     - for-loop 처리는 본질적으로 serial 이다.
-    - stream은 각 개별 요소에 대해 필수 작업이 아니라, aggregate operation의 파이프라인으로서 계산을 reframing해서 병렬 실행을 용이하게 한다?
+    - stream은 각 개별 요소에 대해 필수 작업 말고, aggregate operation의 파이프라인으로서 계산을 reframing해서 병렬 실행을 용이하게 한다?
     - 모든 스트림작업은 직렬 또는 병렬로 실행할 수 있다.
     - Collection.stream(): 직렬 스트림, Collection.parallelStream(): 병렬 스트림
     - 직렬, 병렬 스트림의 차이는 terminal operation이 시작되면 스트림 파이프라인은 직렬 또는 병렬로 수행된다.
     - findAny() 같은 nondeterministic 한 것이 아니면, 직렬인지 병렬인지의 차이는 계산 결과에 영향이 없어야 한다.
+  - 박싱 주의 (기본형의 경우 IntStream, LongStream, DoubleStream 사용)
+  - Stream source에 따라 병렬화에 좋을 수도 있고, 좋지 않을 수도 있다.(예를 들어 LinkedList는 분해에 좋지 않다.)
 
 ```java
 ArrayList<String> results = new ArrayList<>();
