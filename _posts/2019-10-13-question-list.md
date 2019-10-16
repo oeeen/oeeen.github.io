@@ -13,6 +13,57 @@ tags: web
 
 하루에 질문을 한개씩 할 수 있도록 강제하기 위해 쓰는 글입니다.
 
+### 10/16
+
+- Java에서 Array, ArrayList와 LinkedList
+  - ArrayList
+    - default capacity: 10이다. MAX_ARRAY_SIZE: MAX_INT - 8 이다.
+    - ArrayList에 add 할 때 공간이 부족하면 현재 있는 값들을 복사하고 add한다.
+    - 공간이 부족하면 기존 사이즈의 1.5배를 해서 새로운 Array를 만들고 값을 복사한다.
+    - add에서 동작을 보면 thread-safe 하지 않다.
+
+```java
+private void grow(int minCapacity) {
+    // overflow-conscious code
+    int oldCapacity = elementData.length;
+    int newCapacity = oldCapacity + (oldCapacity >> 1);
+    if (newCapacity - minCapacity < 0)
+        newCapacity = minCapacity;
+    if (newCapacity - MAX_ARRAY_SIZE > 0)
+        newCapacity = hugeCapacity(minCapacity);
+    // minCapacity is usually close to size, so this is a win:
+    elementData = Arrays.copyOf(elementData, newCapacity);
+}
+
+public boolean add(E e) {
+    ensureCapacityInternal(size + 1);  // Increments modCount!!
+    elementData[size++] = e;
+    return true;
+}
+```
+
+ArrayList에서 사이즈가 바뀔 때 Object[]이 바뀌는지 확인하기 위한 테스트로 아래와 같은 코드를 수행한다.
+
+```java
+@Test
+void arrayTest() {
+    List<Integer> testArrayList = new ArrayList<>();
+    for (int i = 0; i < 15; i++) {
+        testArrayList.add(i);
+    }
+}
+```
+
+그리고 ArrayList의 grow 메서드에 break point를 찍고 확인해보면, 볼 수 있다. (사이즈를 지정하지 않으면 default size는 10이다.) 사이즈가 10보다 커질 때 grow method가 실행되는데, grow method가 실행된 후 size는 기존 사이즈의 1.5배만큼으로 늘어난다. (`int newCapacity = oldCapacity + (oldCapacity >> 1);`) 그러면서 Object array를 늘어난 크기로 새로 만들고 기존 데이터들을 복사한다.
+
+Default Size 10까지는 변화 없이 하나씩 요소들을 추가 한다.
+
+![Size 10](/assets/img/question_list/size10.png)
+
+10보다 커지는 순간 grow method가 실행 되면서 새로운 Object array를 만들고 여기에 기존에 값들을 복사한다.
+
+![Size 15](/assets/img/question_list/size15.png)
+
 ### 10/15
 
 - Java Stream
