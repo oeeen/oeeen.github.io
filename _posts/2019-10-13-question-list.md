@@ -15,7 +15,7 @@ tags: web
 
 ### 10/16
 
-- Java에서 Array, ArrayList와 LinkedList
+- Java에서 ArrayList
   - ArrayList
     - default capacity: 10이다. MAX_ARRAY_SIZE: MAX_INT - 8 이다.
     - ArrayList에 add 할 때 공간이 부족하면 현재 있는 값들을 복사하고 add한다.
