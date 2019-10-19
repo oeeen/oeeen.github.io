@@ -13,6 +13,75 @@ tags: web
 
 하루에 질문을 한개씩 할 수 있도록 강제하기 위해 쓰는 글입니다.
 
+### 10/19 (혼자 알아본 것)
+
+REST는 긴 시간을 거쳐 진화하는 웹 애플리케이션을 위한 것이다.
+
+- REST - How do I improve HTTP without breaking the Web
+  - 분산 하이퍼미디어 시스템(예: 웹)을 위한 아키텍쳐 스타일(제약조건의 집합)
+  - Client-Server / Stateless / Cache / Uniform interface / Layered System / Code-on-demand
+  - Uniform interface - 서버와 클라이언트가 각각 독립적으로 진화하기 위해서.
+  - 우리의 REST API들을 아래 내용들을 가장 많이 지키지 못하고 있다.
+    - Self-Descriptive Messages
+      - 메세지의 내용만으로 메세지가 뭘 하는지 알수 있어야한다.
+    - HATEOAS
+      - 애플리케이션의 상태는 Hyperlink를 통해서 전이되어야 한다.
+- REST API는?
+  - REST 아키텍쳐 스타일을 따르는 API
+
+```html
+GET /todos HTTP/1.1
+Host: smjeon.dev
+
+HTTP/1.1 200 OK
+Content-Type: text/html
+
+<html>
+<body>
+<a href="https://todos/1">REST 정리하기</a>
+<a href="https://todos/2">REST API 정리하기</a>
+</body>
+</html>
+```
+
+위와 같은 HTML을 보면 self-descriptive, HATEOAS 하다는 것을 알수 있다.
+
+```json
+GET /todos HTTP/1.1
+Host: smjeon.dev
+
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+[
+    {"id": 1, "title": "REST 정리하기"},
+    {"id": 2, "title": "REST API 정리하기"}
+]
+```
+
+그러나 우리가 구현하는 API의 경우에는 위와 같은 식으로 나오지만, 여기서 json 문서에서 id는 뭐고 title이 무엇인지 확인할 수 없다. HATEOAS 측면에서는 링크가 없어서.. HATEOAS를 만족시킬 수 없다.
+
+- Self-descriptive - 확장가능한 커뮤니케이션
+- HATEOAS - 애플리케이션 상태 전이의 late binding, 링크는 동적으로 변경될 수 있다.
+
+```json
+GET /todos HTTP/1.1
+Host: smjeon.dev
+
+HTTP/1.1 200 OK
+Content-Type: application/json
+Link: <https://example.org/docs/todos>; rel="profile"
+
+[
+    {"id": 1, "title": "REST 정리하기"},
+    {"id": 2, "title": "REST API 정리하기"}
+]
+```
+
+이런 식으로 Self-descriptive 를 만족 시킬 수도 있다.
+
+- 참고 자료: [그런 REST API로 괜찮은가](https://www.youtube.com/watch?v=RP_f5dMoHFc&list=WL&index=7&t=1835s)
+
 ### 10/18
 
 - 회사에서 업무 진행하면서 기존 레거시 코드에 대한 리팩토링 시간을 따로 가질 수 있을까?
