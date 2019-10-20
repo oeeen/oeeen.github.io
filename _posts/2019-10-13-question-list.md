@@ -96,7 +96,7 @@ Link: <https://example.org/docs/todos>; rel="profile"
 - Java의 Heap은 왜 Heap일까?
   - [Stack overflow](https://stackoverflow.com/questions/1699057/why-are-two-different-concepts-both-called-heap)
   - Heap 자료구조와는 관련이 없다.
-  - 위키피디아에서는 Lisp이 Memory store를 구현하기 위해 heap 자료구조를 사용했기 때문에.. 그렇게 됬다.(어떻게 했다고는 나와있지 않다.)
+  - 위키피디아에서는 Lisp이 Memory store를 구현하기 위해 heap 자료구조를 사용했기 때문에.. 그렇게 됐다.(어떻게 했다고는 나와있지 않다.)
   - 메모리 힙은 세탁물 바구니의 heap of clothes와 같은 느낌으로 부른다. 그러니까 메모리가 할당되고 해제되는 messy한 공간을 가리키기 위해 사용된다.
 
 ### 10/16
