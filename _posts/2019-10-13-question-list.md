@@ -13,6 +13,71 @@ tags: web
 
 하루에 질문을 한개씩 할 수 있도록 강제하기 위해 쓰는 글입니다.
 
+### 10/25
+
+- JVM에서 GC가 일어날 때 한 트랜잭션이 끝났는지 어떻게 확인하고 Stop-The-World 하는가?
+  - GC가 돌 때 나머지 Thread들의 상태를 저장하고, GC가 돈다.
+  - 하지만 Transaction 관점에서 보면, 만약 DB에 insert하는 transaction 중간에 GC가 끼게된다면, timeout이 발생할 가능성은 생긴다.
+  - GC의 정책이 변경된다고 했을 때 예상치 못한 에러가 발생할 가능성이 있다.
+
+### 10/22
+
+- JPA FetchType과 프록시 객체
+  - 프록시는 원본 객체를 상속받아서 만들어진다.
+  - 영속성 컨텍스트는 영속 엔티티의 동일성을 보장해야한다.
+  - 처음 조회할 때 프록시 객체였다면, 다음 조회할 때도 프록시 객체가 나와야 한다.(동일성 보장)
+
+```java
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Getter
+@Entity
+public class Article extends BaseEntity implements Comparable<Article> {
+
+    @Embedded
+    private ArticleFeature articleFeature;
+
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToOne
+    private User author;
+
+    @Enumerated(EnumType.STRING)
+    private OpenRange openRange;
+
+    public Article(ArticleFeature articleFeature, User author, OpenRange openRange) {
+        this.articleFeature = articleFeature;
+        this.author = author;
+        this.openRange = openRange;
+    }
+
+    public void update(ArticleFeature updatedArticleFeature) {
+        articleFeature = updatedArticleFeature;
+    }
+
+    public boolean isSameUser(User user) {
+        return this.author.equals(user);
+    }
+
+    @Override
+    public int compareTo(Article article) {
+        return this.getUpdatedTime().compareTo(article.getUpdatedTime());
+    }
+}
+```
+
+이 상황에서 ArticleService.findById(Long id) 호출 시 Article이 영속성 컨텍스트에 등록되면서, Article 내부의 author도 영속성 컨텍스트에 들어간다.
+
+현재 코드에서는 ManyToOne이라서 FetchType.EAGER로 동작해서 프록시 객체로 생성되지 않지만, 테스트를 위해 아래와 같이 LAZY로 수정 해본다.
+
+```java
+@OnDelete(action = OnDeleteAction.CASCADE)
+@ManyToOne(fetch = FetchType.LAZY)
+private User author;
+```
+
+그럴 경우 Article 조회 시 User author는 프록시 객체로 1차 캐시에 들어간다. 그 다음에 해당하는 User를 조회해오면 영속성 컨텍스트는 동일성을 보장해야하기 때문에 똑같이 프록시 객체로 조회가 된다.(프록시 타겟의 식별자가 같은) 따라서 이 경우에는 equals를 구현 할 때 IDE에서 자동 생성해주는 equals를 사용하는 것이 아니라 instanceof를 사용해서 비교해야 한다.(프록시는 원본 엔티티의 자식 타입이므로)
+
+- 초기화된 프록시를 비교할 때는 instanceof를 사용, 프록시에 user.id 말고 user.getId()을 사용하자. 프록시의 데이터를 조회할 때는 getter를 쓰자.
+
 ### 10/19 (혼자 알아본 것)
 
 REST는 긴 시간을 거쳐 진화하는 웹 애플리케이션을 위한 것이다.
