@@ -11,7 +11,77 @@ tags: web
 
 ## 의식적인 노력을 통해 하루에 질문을 한개씩
 
-하루에 질문을 한개씩 할 수 있도록 강제하기 위해 쓰는 글입니다.
+하루에 질문을 한개씩 할 수 있도록 강제하기 위해 쓰는 글입니다. 주말에는 TIL(Today I Learned)로 대체합니다.
+
+### 10/27
+
+- DI (Dependency Injection)
+  - 의존 객체 주입으로 변화에 유연하게 대응할 수 있게 만든다.
+  - A객체가 B객체를 의존하고 있을 때 결합도를 낮출 수 있는 가장 좋은 방법이다.
+  - 과거에 전략패턴을 사용해서 전략을 주입해주는 것도 또한 DI라고 할 수 있을 것 같다.
+  - 예시를 들어보면, SpellChecker
+
+```java
+public class SpellChecker {
+    private Lexicon dictionary = new EnglishKoean();
+
+    ...
+}
+```
+
+이 상태에서 다른 구현체(중국어 사전, 일본어 사전)이 필요해 진다면? dictionary2, dictionary3 같은 필드들이 추가될 것이다. 또한 if문으로 dictionary를 선택하는 로직까지 추가될 것이다.
+
+이런 것을 방지하기 위해 dictionary field는 하나만 두고, 생성자에서 dictionary를 주입받아 사용하는 방식으로 구현할 수 있다.
+
+```java
+public class SpellChecker {
+    private Lexicon dictionary;
+
+    public SpellChecker(Lexicon dictionary) {
+        this.dictionary = dictionary;
+    }
+
+    ...
+}
+```
+
+SpellChecker는 단순히 사전이 무엇이든 간에 상관 없이 자신이 가지고 있는 사전을 기반으로 철자를 확인하는 일만 하면 된다.
+
+DI에 대한 예시를 스프링 코드에서 보면 아래와 같다.
+
+```java
+@Service
+public class ArticleService {
+    private final ArticleRepository articleRepository;
+    private final UserService userService;
+    private final RelationService relationService;
+    private final ModelMapper modelMapper;
+
+    @Autowired
+    public ArticleService(final ArticleRepository articleRepository,
+                          final UserService userService,
+                          final RelationService relationService,
+                          final ModelMapper modelMapper) {
+        this.articleRepository = articleRepository;
+        this.userService = userService;
+        this.relationService = relationService;
+        this.modelMapper = modelMapper;
+    }
+}
+
+@RestController
+@RequestMapping("/api/articles")
+public class ArticleApiController {
+    private final ArticleService articleService;
+
+    @Autowired
+    public ArticleApiController(ArticleService articleService) {
+        this.articleService = articleService;
+    }
+}
+```
+
+스프링에서는 @Autowired annotation으로 생성된 빈을 주입해준다. 이 경우엔 싱글 인스턴스를 보장하기 위해 이미 생성되어 컨테이너에 들어있는 빈을 사용하기 위해 DI를 사용한 것 같다.
 
 ### 10/26
 
