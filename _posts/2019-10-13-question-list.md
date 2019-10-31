@@ -1,6 +1,6 @@
 ---
 layout: single
-title:  "1 일 1 질문"
+title:  "1일 1질문, TIL(10월)"
 date:   2019-10-13 23:00:59 +0900
 classes: wide
 categories: etc
@@ -12,6 +12,26 @@ tags: web
 ## 의식적인 노력을 통해 하루에 질문을 한개씩
 
 하루에 질문을 한개씩 할 수 있도록 강제하기 위해 쓰는 글입니다. 주말에는 TIL(Today I Learned)로 대체합니다.
+
+### 10/31 TIL
+
+- DB property 같은 보안에 민감한 데이터들을 어떻게 관리할까?
+  - Git Submodule을 활용할 수도 있다.
+  - Private repository 활용하면 된다. 전에는 1개만 무료였는데, 지금은 무제한이다.
+
+- Load Balancer의 이중화
+  - 이중화된 로드밸런서는 서로 Health Check를 한다.
+  - Main 로드 밸런서가 죽으면 나머지 하나의 로드 밸런서로 운영된다.
+
+- Load Balancing
+  - 부하 분산을 위해서 virtual IP를 통해 여러 서버에 접속하도록 분배하는 기능. 주요 기술은 아래.
+    - NAT(Network Address Translation): 사설 IP -> 공인 IP
+    - DSR(Dynamic Source Routing protocol): 서버에서 클라이언트로 되돌아가는 경우, 목적지 주소를 스위치의 IP말고 클라이언트의 IP로 전달해서 스위치를 거치지 않는다.
+    - Tunneling: 데이터를 캡슐화해서 연결된 상호 간에만 캡슐화된 패킷을 구별해 캡슐화를 해제할 수 있다.
+
+- L4 스위치는 IP,포트,세션을 기반으로한 로드밸런싱이다.
+  - 동일한 역할을 수행하는 서버 그룹을 VIP를 통해 관리하며, 서버로 향하는 트래픽을 일단 VIP를 가진 L4 스위치로 수신한 뒤 분배 정책에 따라 적절한 서버에 분배해 주는 것을 말한다.
+  - 클라이언트는 VIP로 요청하고, L4 스위치가 요청을 받아서 적절한 서버에 로드밸런싱 해준다.
 
 ### 10/30 TIL
 
