@@ -15,7 +15,247 @@ tags: web
 
 ## 11/02
 
-### TCP와 UDP
+## Transaction 격리 수준
+
+Transaction은 크게 아래의 4개로 나뉜다.
+
+- READ UNCOMMITTED
+  - 어떤 트랜잭션의 변경 내용이 Commit, Rollback 상관 없이 다른 트랜잭션에서 보인다.
+- READ COMMITTED
+  - 어떤 트랜잭션의 변경 내용이 Commit 되어야 다른 트랜잭션에서 보인다.
+  - Unrepeatable Read가 발생할 수 있다.
+    - 트랜잭션 시작 후 다른 트랜잭션에서 데이터를 수정, 삭제, 추가 하는 경우 이전에 읽은 내용과 다른 내용이 조회될 수 있다.
+- REPEATABLE READ
+  - 트랜잭션이 시작되기 전에 커밋된 내용에 대해서만 조회할 수 있는 격리수준
+  - Phantom Read가 발생할 수 있다.
+    - 트랜잭션 시작 후 다른 트랜잭션에서 데이터가 추가되는 경우, 반복 조회 시 이전 데이터와 조회한 데이터가 달라질 수 있다. (없던 데이터가 생겨날 수 있다.)
+- SERIALIZABLE
+  - 단순 SELECT 문에도 공유 잠금을 한다.
+
+### 테스트
+
+```sql
+mysql> select * from department;
++------+-----------------+--------+
+| dnum | name            | mgrssn |
++------+-----------------+--------+
+|  123 | 기획부          |   1001 |
+|  124 | 인사부          |   1002 |
+|  125 | 정보기획부      |   1003 |
++------+-----------------+--------+
+3 rows in set (0.00 sec)
+```
+
+- READ UNCOMMITTED
+
+```sql
+# TRANSACTION 1
+mysql> SET SESSION transaction isolation level READ UNCOMMITTED;
+mysql> commit;
+mysql> START TRANSACTION;
+mysql> SELECT * FROM department;
++------+-----------------+--------+
+| dnum | name            | mgrssn |
++------+-----------------+--------+
+|  123 | 기획부          |   1001 |
+|  124 | 인사부          |   1002 |
+|  125 | 정보기획부      |   1003 |
++------+-----------------+--------+
+3 rows in set (0.00 sec)
+
+# TRANSACTION 2
+mysql> START TRANSACTION;
+mysql> UPDATE department SET name = "Test" WHERE name = '기획부';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+mysql> INSERT INTO department (dnum, name, mgrssn) VALUES (126, "하하하", 1004);
+Query OK, 1 row affected (0.01 sec)
+
+# TRANSACTION 1
+mysql> SELECT * FROM department;
++------+-----------------+--------+
+| dnum | name            | mgrssn |
++------+-----------------+--------+
+|  123 | Test            |   1001 |
+|  124 | 인사부          |   1002 |
+|  125 | 정보기획부      |   1003 |
+|  126 | 하하하          |   1004 |
++------+-----------------+--------+
+```
+
+TRANSACTION 2에서 commit을 안했는데도 TRANSACTION 1에서 업데이트 된 결과를 볼 수 있음을 알 수 있다.
+만약 TRANSACTION 2에서 rollback을 한다면 다시 결과가 처음으로 돌아간다.
+
+```sql
+# TRANSACTION 2
+mysql> rollback;
+
+# TRANSACTION 1
+mysql> SELECT * FROM department;
++------+-----------------+--------+
+| dnum | name            | mgrssn |
++------+-----------------+--------+
+|  123 | 기획부          |   1001 |
+|  124 | 인사부          |   1002 |
+|  125 | 정보기획부      |   1003 |
++------+-----------------+--------+
+3 rows in set (0.00 sec)
+```
+
+- READ COMMITTED
+
+```sql
+# TRANSACTION 1
+mysql> SET SESSION transaction isolation level READ COMMITTED;
+mysql> commit;
+mysql> START TRANSACTION;
+mysql> SELECT * FROM department;
++------+-----------------+--------+
+| dnum | name            | mgrssn |
++------+-----------------+--------+
+|  123 | 기획부          |   1001 |
+|  124 | 인사부          |   1002 |
+|  125 | 정보기획부      |   1003 |
++------+-----------------+--------+
+3 rows in set (0.00 sec)
+
+# TRANSACTION 2
+mysql> START TRANSACTION;
+mysql> UPDATE department SET name = "Test" WHERE name = '기획부';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+mysql> INSERT INTO department (dnum, name, mgrssn) VALUES (126, "하하하", 1004);
+Query OK, 1 row affected (0.00 sec)
+
+# TRANSACTION 1
+mysql> SELECT * FROM department;
++------+-----------------+--------+
+| dnum | name            | mgrssn |
++------+-----------------+--------+
+|  123 | 기획부          |   1001 |
+|  124 | 인사부          |   1002 |
+|  125 | 정보기획부      |   1003 |
++------+-----------------+--------+
+3 rows in set (0.00 sec)
+
+# TRANSACTION 2
+mysql> commit;
+
+# TRANSACTION 1
+mysql> SELECT * FROM department;
++------+-----------------+--------+
+| dnum | name            | mgrssn |
++------+-----------------+--------+
+|  123 | Test            |   1001 |
+|  124 | 인사부          |   1002 |
+|  125 | 정보기획부      |   1003 |
+|  126 | 하하하          |   1004 |
++------+-----------------+--------+
+4 rows in set (0.00 sec)
+```
+
+같은 트랜잭션 1에서 같은 `SELECT * FROM department` 명령에 다른 결과가 나오는 `Unrepeatable Read`가 발생하는 것을 볼 수 있다.
+
+- REPEATABLE READ
+
+```sql
+# TRANSACTION 1
+mysql> SET SESSION transaction isolation level REPEATABLE READ;
+mysql> commit;
+mysql> START TRANSACTION;
+Query OK, 0 rows affected (0.00 sec)
+mysql> SELECT * FROM department;
++------+-----------------+--------+
+| dnum | name            | mgrssn |
++------+-----------------+--------+
+|  123 | Test            |   1001 |
+|  124 | 인사부          |   1002 |
+|  125 | 정보기획부      |   1003 |
+|  126 | 하하하          |   1004 |
++------+-----------------+--------+
+4 rows in set (0.00 sec)
+
+# TRANSACTION 2
+mysql> START TRANSACTION;
+mysql> INSERT INTO department (dnum, name, mgrssn) VALUES (127, "세번째", 1005);
+Query OK, 1 row affected (0.00 sec)
+mysql> UPDATE department SET name = "TESTTEST" WHERE name = 'Test';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+# TRANSACTION 1
+mysql> SELECT * FROM department;
++------+-----------------+--------+
+| dnum | name            | mgrssn |
++------+-----------------+--------+
+|  123 | Test            |   1001 |
+|  124 | 인사부          |   1002 |
+|  125 | 정보기획부      |   1003 |
+|  126 | 하하하          |   1004 |
++------+-----------------+--------+
+4 rows in set (0.00 sec)
+# Dirty Read는 안 됨
+
+# TRANSACTION 2
+
+# TRANSACTION 1
+mysql> SELECT * FROM department;
++------+-----------------+--------+
+| dnum | name            | mgrssn |
++------+-----------------+--------+
+|  123 | Test            |   1001 |
+|  124 | 인사부          |   1002 |
+|  125 | 정보기획부      |   1003 |
+|  126 | 하하하          |   1004 |
++------+-----------------+--------+
+4 rows in set (0.00 sec)
+
+# TRANSACTION 2
+mysql> commit;
+
+# TRANSACTION 1
+mysql> SELECT * FROM department;
++------+-----------------+--------+
+| dnum | name            | mgrssn |
++------+-----------------+--------+
+|  123 | Test            |   1001 |
+|  124 | 인사부          |   1002 |
+|  125 | 정보기획부      |   1003 |
+|  126 | 하하하          |   1004 |
++------+-----------------+--------+
+4 rows in set (0.00 sec)
+```
+
+Phantom Read가 발생하지 않았다. 최신 스냅샷에서 가져오기 때문이다.
+
+> This is the default isolation level for InnoDB. Consistent reads within the same transaction read the snapshot established by the first read.
+
+그러나 위의 SELECT 결과에는 없는 'TESTTEST'라는 부서를 'UpdateTest' 라는 이름으로 변경하는 쿼리를 날려보면 1 row affected 라는 결과가 나오고, 그 다음 다시 SELECT * 해보면 업데이트가 된 모습을 볼 수 있다.
+
+```sql
+# TRANSACTION 1
+mysql> UPDATE department SET name = 'UpdateTest' WHERE name = 'TESTTEST';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM department;
++------+-----------------+--------+
+| dnum | name            | mgrssn |
++------+-----------------+--------+
+|  123 | UpdateTest      |   1001 |
+|  124 | 인사부          |   1002 |
+|  125 | 정보기획부      |   1003 |
+|  126 | 하하하          |   1004 |
++------+-----------------+--------+
+4 rows in set (0.00 sec)
+```
+
+### 참고자료 (Transaction 격리 수준)
+
+- [MySQL의 Transaction Isolation Levels](https://jupiny.com/2018/11/30/mysql-transaction-isolation-levels/)
+- [MySQL 공식](https://dev.mysql.com/doc/refman/8.0/en/innodb-transaction-isolation-levels.html#isolevel_repeatable-read)
+
+## TCP와 UDP
 
 - TCP: 신뢰성이 중요한 어떤 Application에 의해 사용될 수 있는 신뢰성 있는 연결 지향 프로토콜
 - UDP: 오류 제어가 응용층 프로세스에 의해 제공되는 Application에서 단순성과 효율성으로 사용되는 신뢰성 없는 비연결 전송층 프로토콜
