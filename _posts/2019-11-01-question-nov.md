@@ -13,6 +13,105 @@ tags: web
 
 하루에 질문을 한개씩 할 수 있도록 강제하기 위해 쓰는 글입니다. 주말에는 TIL(Today I Learned)로 대체합니다.
 
+## 11/02
+
+### TCP와 UDP
+
+- TCP: 신뢰성이 중요한 어떤 Application에 의해 사용될 수 있는 신뢰성 있는 연결 지향 프로토콜
+- UDP: 오류 제어가 응용층 프로세스에 의해 제공되는 Application에서 단순성과 효율성으로 사용되는 신뢰성 없는 비연결 전송층 프로토콜
+
+### TCP (Transmission Control Protocol)
+
+연결지향, 신뢰성 있는 프로토콜이다.
+
+TCP는 스트림 지향 프로토콜이다. TCP에서는 바이트 스트림으로 데이터를 송, 수신 한다.
+
+![TCP](/assets/img/question_list/tcp.png)
+
+송신, 수신 프로세스가 똑같은 속도로 처리할 수 없기 때문에, TCP는 저장을 위해 버퍼가 필요하다.
+
+### TCP 서비스
+
+- 전이중 통신(full-duplex service): 동시에 양 방향으로 전달 될 수 있다.
+- 연결 지향 서비스
+  1. 두 사이트 사이에 연결을 설정한다.
+  2. 양 방향으로 데이터를 교환한다.
+  3. 연결을 종료한다.
+- 신뢰성 있는 서비스
+
+### 특징
+
+- Numbering system
+  - 세그먼트 헤더에는 Sequence number와 Acknowledgement number 영역이 존재한다.
+  - Sequence Number
+    - 첫 번째 세그먼트의 Sequence Number는 임의 번호이다.
+    - 다른 세그먼트의 Sequence Number는 이전 세그먼트의 Sequence Number + 이전 세그먼트의 바이트 수이다.
+  - Acknowledgement Number
+    - Ack Number는 상대방으로부터 다음에 받고 싶은 바이트 번호
+
+### TCP Segment
+
+![TCP](/assets/img/question_list/tcp_segment.png)
+
+- Source port address
+  - 세그먼트를 보내는 호스트에 있는 응용 프로그램의 포트 번호
+- Destination port address
+  - 세그먼트를 받는 호스트에 있는 응용 프로그램의 포트 번호
+- Sequence Number
+- Acknowledgement Number
+  - 상대로부터 받기를 기대하는 바이트 넘버
+- Header Length
+- Control
+  - URG: Urgent pointer is valid
+  - ACK: Acknowledgement is valid
+  - PSH: Request for push
+  - RST: Reset the connection
+  - SYN: Synchronize sequence numbers
+  - FIN: Terminate the connection
+- Window size
+  - 상대방이 반드시 유지해야 하는 바이트 단위의 윈도우 크기
+- Checksum
+- Urgent Pointer
+  - 세그먼트가 긴급 데이터를 포함하고 있을 때 사용된다.
+
+### 3-way handshaking
+
+1. 클라이언트는 서버에 SYN 세그먼트를 보낸다.
+2. 서버는 SYN + ACK 세그먼트를 보낸다. (서버 -> 클라이언트 통신을 위한 SYN과 클라이언트 SYN에 대한 ACK)
+3. 클라이언트가 ACK 세그먼트를 보낸다.(ACK Flag와 Acknowledgement 필드 사용)
+
+### SYN flooding attack
+
+Datagram에 있는 source IP를 위조하여 서로 다른 클라이언트로부터 SYN이 들어오는 것처럼 위조해서 SYN을 대량으로 서버에 날릴 수 있다. 서버는 이에 대한 응답으로 SYN + ACK 세그먼트를 날려야하는데, 이 모든 것은 손실된다. 공격자가 많은 서비스 요청을 가진 시스템을 독점한다. denial of service attack으로 알려진 보안 공격 형태에 속한다.
+
+### UDP (User Datagram Protocol)
+
+비연결이고, 신뢰성이 없는 전송 프로토콜이다.
+
+일단 User Datagram을 알아보자.
+
+User Datagram이라고 부르는 UDP 패킷은 각각 2바이트인 4개의 필드로 만들어진 고정된 크기의 8바이트 헤더를 가지고 있다. 1,2 번째 필드는 source, destination의 포트 번호이다. 세 번째 필드는 헤더 + 데이터 = 사용자 데이터그램의 전체 길이이다. 마지막 Checksum이다.
+
+### 예시
+
+`CB84000DOO1COO1C - 16진수 형태의 UDP 헤더`라고 한다면, Source Port: (CB84 = 52100), Dest Port(000D = 13), User Datagram 전체 길이: (001C = 28바이트), 데이터 길이: 전체 길이 - 헤더 크기(8바이트) = 20바이트
+
+### UDP 서비스
+
+- 프로세스 대 프로세스 통신
+  - Socket Address를 이용
+- 비연결 서비스
+- 흐름제어 없음
+- 오류제어 없음
+- 혼잡제어 없음
+- UDP는 흐름 및 오류 제어를 하지 않는 간단한 요청-응답 통신을 요구하는 프로세스에 적당하다
+- 내부 흐름 및 오류 제어 기법을 가진 프로세스에 적당하다.
+- 스트리밍 서비스에 적합하다.
+
+### 참고자료 (TCP, UDP)
+
+- [데이터통신과 네트워킹 - 24장](http://www.kyobobook.co.kr/product/detailViewKor.laf?mallGb=KOR&ejkGb=KOR&barcode=9788960552890&orderClick=JA2)
+
 ## 11/01
 
 - Scale up
@@ -51,7 +150,7 @@ UNDO Log가 없는 상황이라도 REDO Log를 통해 재 실행 하면서 UNDO 
 - Isolation(독립성): 여러 트랜잭션이 동시에 수행되더라도 각각의 트랜잭션은 다른 트랜잭션의 수행에 영향을 받지 않고 독립적으로 수행되어야 한다. 즉, 한 트랜잭션의 중간 결과가 다른 트랜잭션에게는 숨겨져야 한다는 의미인데, 이러한 isolation 성질이 보장되지 않으면 트랜잭션이 원래 상태로 되돌아갈 수 없게 된다. Isolation 성질을 보장할 수 있는 가장 쉬운 방법은 모든 트랜잭션을 순차적으로 수행하는 것이다. 하지만 병렬적 수행의 장점을 얻기 위해서 DBMS는 병렬적으로 수행하면서도 일렬(serial) 수행과 같은 결과를 보장할 수 있는 방식을 제공하고 있다.
 - Durability(지속성): 트랜잭션이 성공적으로 완료되어 커밋되고 나면, 해당 트랜잭션에 의한 모든 변경은 향후에 어떤 소프트웨어나 하드웨어 장애가 발생되더라도 보존되어야 한다.
 
-### 참고자료
+### 참고자료 (Transaction)
 
 - [Naver D2 - DBMS는 어떻게 트랜잭션을 관리할까?](https://d2.naver.com/helloworld/407507)
 - [MySQL 5.7 Ref](https://dev.mysql.com/doc/refman/5.7/en/innodb-undo-logs.html)
