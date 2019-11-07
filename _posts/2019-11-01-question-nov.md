@@ -9,6 +9,83 @@ tags: web
 
 **틀린 내용이나 본문의 내용과 다른 의견이 있으시면 댓글로 남겨주세요!**
 
+## 11/07
+
+- JPA N+1 문제
+  - 만약 User라는 Entity가 List\<Article\>을 갖는다고 생각해보자.
+
+```java
+@Entity
+public class Article extends BaseEntity implements Comparable<Article> {
+
+    @Embedded
+    private ArticleFeature articleFeature;
+
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToOne
+    private User author;
+
+    @Enumerated(EnumType.STRING)
+    private OpenRange openRange;
+    ...
+}
+
+@Entity
+public class User extends BaseEntity {
+
+    @Embedded
+    private UserEmail userEmail;
+
+    @Embedded
+    private UserPassword userPassword;
+
+    @Embedded
+    private UserName userName;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private List<Article> articles = new ArrayList<>();
+    ...
+}
+```
+
+User와 Article은 1:N, N:1 양방향 연관관계
+
+jpql로 select u from User u를 날려보면, SQL이 `SELECT * FROM USER;`로 날아간다. 그러면 User에 Article이 EAGER로 되어있기 때문에, article을 바로 조회한다.
+
+그러면 `SELECT * FROM ARTICLES WHERE USER_ID = ?;`와 같은 쿼리문이 실행된다. 원했던 쿼리는 하나(`SELECT * FROM USER;`) 였는데, 이 쿼리의 결과 row수(N) 만큼의 쿼리가 추가로 날아간다.
+
+여기서 만약에 `@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)`로 바꾼다면 JPQL 자체에서는 N+1 문제가 발생하지 않는다.(User 엔티티 내부의 Articles은 지연로딩 된다, 사용할 때 쿼리가 날아간다.)
+
+그러나 `SELECT * FROM USER;`로 가져온 UserList를 순회하면서 Article을 사용한다면, 똑같이 쿼리가 N개 더 날아간다.
+
+```java
+for (User user : users) {
+    System.out.println("User = " + user.getArticles().size());
+}
+```
+
+이와 같은 식으로 구현한다면 똑같이 N개의 쿼리가 더 날아가게 된다.
+
+해결 방안은
+
+1. fetch join을 사용
+   - jpql `select u from User u join fetch u.articles` 사용
+   - SQL은 `SELECT U.*, A.* FROM USER U INNER JOIN ARTICLES A ON U.ID = A.USER_ID;` 처럼 실행된다.
+2. @BatchSize 사용
+   - List\<Article\> 위에 `@org.hibernate.annotations.BatchSize(size = 5)` 사용하면 한번에 5개씩 쿼리를 실행한다.
+   - SQL은 `SELECT * FROM ARTICLES WHERE USER_ID IN (?, ?, ?, ?, ?)` 처럼 실행 된다.
+3. @Fetch(FetchMode.SUBSELECT)
+   - Articles를 조회할 때 서브 쿼리를 이용해서 조회한다.
+
+Default는
+
+- @OneToOne, @ManyToOne: EAGER Loading
+- @OneToMany, @ManyToOne: LAZY Loading
+
+### 참고자료
+
+- 자바 ORM 표준 JPA 프로그래밍 15장
+
 ## 11/06
 
 - Nginx의 병렬처리 방식
