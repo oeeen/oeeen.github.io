@@ -9,6 +9,34 @@ tags: web
 
 **틀린 내용이나 본문의 내용과 다른 의견이 있으시면 댓글로 남겨주세요!**
 
+## 11/09
+
+- Sticky Session
+  - 한 WAS에 Session이 종속된다.
+  - AWS ELB를 사용하면 어떤 사용자가 처음 요청한 서버에만 계속해서 요청을 보낸다.
+    - 각 인스턴스에 WAS가 떠있고 이 WAS들을 로드밸런싱 구성한 상태여야 한다.
+  - 하나의 EC2 인스턴스 내에 nginx로 로드밸런싱 -> Docker image 2개 로 구성된 상태라면? (내가 구현했던 방식)
+    - nginx의 로드밸런싱을 ip_hash 방식으로 구현하면 요청한 IP의 해시값으로 로드밸런싱 하기 때문에, 요청자의 IP가 갑자기 변경되지 않는 한 Sticky하게 한 WAS에만 요청이 간다.
+    - Load balancing 구성할 때 upstream 쪽에 `ip_hash;`라는 내용만 추가해주면 된다.
+    - nginx plus에서는 sticky cookie라는 기능을 제공한다고 한다.(Session Persistence)
+      - 들어온 클라이언트의 요청에 대한 upstream 그룹으로부터 온 첫번째 응답에 session cookie를 담아서 보낸다.
+      - 그 이후에 session cookie가 담겨있는 클라이언트의 요청은 동일한 upstream server로 보낸다.
+      - `sticky cookie srv_id expires=1h domain=.example.com path=/;` 를 upstream 쪽에 추가해주면 된다.
+- Session Clustering
+  - 여러 WAS간 Session을 하나로 관리한다.
+  - Load balancing을 위해 여러 WAS로 요청이 분산될 경우에도 login 상태는 유지 되어야 하기 때문에 Session을 하나로 관리할 필요가 있다.
+  - Tomcat에도 Session Clustering 기능을 제공한다.
+  - Redis와 같은 세션 서버를 둘 수도 있다.
+  - Spring boot와 Redis를 활용해서 Session Clustering을 구현할 수 있다.
+
+### 참고 자료 (Sticky Session)
+
+- [Nginx docs](https://www.nginx.com/products/nginx/load-balancing/)
+
+## 11/08
+
+- X
+
 ## 11/07
 
 - JPA N+1 문제
