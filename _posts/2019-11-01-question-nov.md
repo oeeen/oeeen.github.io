@@ -9,6 +9,50 @@ tags: web
 
 **틀린 내용이나 본문의 내용과 다른 의견이 있으시면 댓글로 남겨주세요!**
 
+## 11/11
+
+- Binary Search(이진 탐색)
+  - 정렬된 상태의 배열에서 특정한 값을 찾아내는 탐색법
+  - 배열의 크기에서 절반씩 쪼개가며 찾는다.
+
+예시로 프로그래머스의 문제 중 [징검다리](https://programmers.co.kr/learn/courses/30/lessons/43236) 라는 문제를 풀어보면 아래 처럼 풀 수 있다.
+
+```java
+public int solution(int distance, int[] rocks, int n) {
+    int left = 0;
+    int right = distance;
+
+    Arrays.sort(rocks);
+
+    while ((right - left) > 1) {
+        int mid = (left + right) >> 1;
+        if (isPossible(rocks, mid, n)) {
+            left = mid;
+        } else {
+            right = mid;
+        }
+    }
+    return right;
+}
+
+private boolean isPossible(int[] rocks, int distance, int n) {
+    int previous = 0;
+    int count = 0;
+    for (int rock : rocks) {
+        if (rock - previous > distance) {
+            previous = rock;
+        } else {
+            count += 1;
+        }
+    }
+    return count <= n;
+}
+```
+
+## 11/10
+
+- 휴식
+
 ## 11/09
 
 - Sticky Session
