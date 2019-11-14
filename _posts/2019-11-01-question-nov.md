@@ -9,6 +9,70 @@ tags: web
 
 **틀린 내용이나 본문의 내용과 다른 의견이 있으시면 댓글로 남겨주세요!**
 
+## 11/14
+
+- JDK Dynamic proxy vs. CGLib Proxy
+  - 인터페이스가 있으면 dynamic proxy, 아니면 cglib
+  - JDK Dynamic Proxy
+    - `package java.lang.reflect;`의 Proxy 클래스 사용
+
+```java
+/**
+* Returns an instance of a proxy class for the specified interfaces
+* that dispatches method invocations to the specified invocation
+* handler.
+* @param   loader the class loader to define the proxy class
+* @param   interfaces the list of interfaces for the proxy class
+*          to implement
+* @param   h the invocation handler to dispatch method invocations to
+* @return  a proxy instance with the specified invocation handler of a
+*          proxy class that is defined by the specified class loader
+*          and that implements the specified interfaces
+**/
+@CallerSensitive
+    public static Object newProxyInstance(ClassLoader loader,
+                                          Class<?>[] interfaces,
+                                          InvocationHandler h)
+        throws IllegalArgumentException
+```
+
+Proxy 클래스에 메서드 선언부와 문서화 주석 부분을 일부만 보면 위와 같다. 그래서 구현할 프록시 클래스의 인터페이스, InvocationHandler가 필요하다.
+
+- CGLib Proxy
+  - CGLib proxy는 jdk dynamic proxy 와 다르게 구현할 프록시 클래스의 인터페이스 형태가 필요하지 않고, 해당 클래스 자체로 프록시를 생성 할 수 있다.
+  - 타겟의 클래스를 상속 받는 프록시 클래스를 생성
+
+```java
+public class PersonService {
+    public String sayHello(String name) {
+        return "Hello " + name;
+    }
+
+    public Integer lengthOfName(String name) {
+        return name.length();
+    }
+}
+
+class PersonServiceTest {
+    @Test
+    void test() {
+        Enhancer enhancer = new Enhancer();
+        enhancer.setSuperclass(PersonService.class);
+        enhancer.setCallback((FixedValue) () -> "Hello Tom!");
+        PersonService proxy = (PersonService) enhancer.create();
+
+        String res = proxy.sayHello(null);
+
+        assertEquals("Hello Tom!", res);
+    }
+}
+```
+
+### 참고자료(AOP)
+
+- [spring docs](https://docs.spring.io/spring/docs/2.5.x/reference/aop.html)
+- [baeldung - cglib](https://www.baeldung.com/cglib)
+
 ## 11/12
 
 I/O 처리 관점에서의 용어 설명
