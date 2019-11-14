@@ -68,6 +68,40 @@ class PersonServiceTest {
 }
 ```
 
+sayHello 메서드를 intercept할 프록시 클래스를 만듭니다. Enhancer 클래스는 PersonService를 동적으로 상속받은 프록시를 만들 수 있게 해줍니다.
+
+FixedValue는 단순히 프록시 방식에서 값을 반환하는 콜백 인터페이스입니다. 프록시에서 sayHello() 메서드를 실행 하면 프록시 메서드에 지정된 값이 리턴됩니다.
+
+여기서 문제가 있는데, 프록시가 실행할 메서드와 부모클래스가 호출할 메서드를 직접 결정할 수 없기 때문에 몇 가지 단점이 있습니다.
+
+MethodInterceptor 인터페이스를 사용 하여 프록시에 대한 모든 호출을 인터셉트하고 특정 호출을 수행 할 것인지 슈퍼 클래스에서 메소드를 실행할 것인지 결정할 수 있습니다.
+
+아래 코드에서 if문 분기 처리 부분으로 메서드 호출의 위치를 정할 수 있습니다.
+
+```java
+Enhancer enhancer = new Enhancer();
+enhancer.setSuperclass(PersonService.class);
+enhancer.setCallback((MethodInterceptor) (obj, method, args, proxy) -> {
+    if (method.getDeclaringClass() != Object.class && method.getReturnType() == String.class) {
+        return "Hello Tom!";
+    } else {
+        return proxy.invokeSuper(obj, args);
+    }
+});
+
+PersonService proxy = (PersonService) enhancer.create();
+
+assertEquals("Hello Tom!", proxy.sayHello(null));
+int lengthOfName = proxy.lengthOfName("Mary");
+  
+assertEquals(4, lengthOfName);
+```
+
+위 예시에서는 메서드 시그니쳐가 Object 클래스 에서 제공되지 않은 경우 모든 Call을 인터셉트합니다. toString () 또는 hashCode () 메소드가 인터셉트 되지 않습니다. 위 코드에서 PersonService의 메서드 중 ReturnType이 String인 메서드만 인터셉트 합니다. 메서드중 lengthOfName()는 인터셉트하지 않습니다.
+
+- BeanCreator
+- MixinInterface
+
 ### 참고자료(AOP)
 
 - [spring docs](https://docs.spring.io/spring/docs/2.5.x/reference/aop.html)
