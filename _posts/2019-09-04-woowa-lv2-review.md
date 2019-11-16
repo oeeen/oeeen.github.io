@@ -1,6 +1,6 @@
 ---
 layout: single
-title:  "[우아한테크코스] Lv.2 회고록"
+title:  "[우아한테크코스] Lv.2 회고"
 date:   2019-09-05 01:00:59 +0900
 classes: wide
 categories: reflection
