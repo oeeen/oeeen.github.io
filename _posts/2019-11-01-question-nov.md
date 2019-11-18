@@ -1,6 +1,6 @@
 ---
 layout: single
-title:  "1일 1질문, TIL(11월)"
+title:  "TIL(11월)"
 date:   2019-11-01 23:00:59 +0900
 classes: wide
 categories: etc
@@ -8,6 +8,66 @@ tags: web
 ---
 
 **틀린 내용이나 본문의 내용과 다른 의견이 있으시면 댓글로 남겨주세요!**
+
+## 11/18
+
+- 자바의 String
+
+Object의 toString() 메서드는 왜 하위 객체인 String을 return 할까 라는 생각에서 출발해서 뜬금없이 String의 intern() 메서드를 알아본다.
+
+일단 Object의 toString()은 자바 문서에 `Returns a string representation of the object. In general, the toString method returns a string that "textually represents" this object. The result should be a concise but informative representation that is easy for a person to read. It is recommended that all subclasses override this method.` 라고 나와있다. 그러나 왜, 어떻게 부모 객체인 Object에서 자식 객체인 String을 사용하게 됬는지..는 알 수 없었다.
+
+```java
+/**
+     * Returns a canonical representation for the string object.
+     * <p>
+     * A pool of strings, initially empty, is maintained privately by the
+     * class {@code String}.
+     * <p>
+     * When the intern method is invoked, if the pool already contains a
+     * string equal to this {@code String} object as determined by
+     * the {@link #equals(Object)} method, then the string from the pool is
+     * returned. Otherwise, this {@code String} object is added to the
+     * pool and a reference to this {@code String} object is returned.
+     * <p>
+     * It follows that for any two strings {@code s} and {@code t},
+     * {@code s.intern() == t.intern()} is {@code true}
+     * if and only if {@code s.equals(t)} is {@code true}.
+     * <p>
+     * All literal strings and string-valued constant expressions are
+     * interned. String literals are defined in section 3.10.5 of the
+     * <cite>The Java&trade; Language Specification</cite>.
+     *
+     * @return  a string that has the same contents as this string, but is
+     *          guaranteed to be from a pool of unique strings.
+     */
+    public native String intern();
+```
+
+대충 읽어보면 String pool에 들어있으면 그 pool에 있는 참조를 연결해주고, 없으면 새로 넣고 연결해준다고 한다.
+
+그래서 아래와 같은 테스트를 작성하면 확인 할 수 있다.
+
+```java
+@Test
+void test() {
+    String expected = "Test String";
+    String expectedObject = new String("Test String");
+    String reference = "Test String";
+
+    assertEquals(expected, "Test String");
+    assertEquals(expectedObject, "Test String");
+    assertThat(expected == "Test String").isTrue();
+    assertThat(expectedObject.intern() == "Test String").isTrue();
+    // assertThat(expectedObject == "Test String").isTrue();
+
+    assertThat(expected == reference).isTrue();
+}
+```
+
+Equals로 비교한 객체 비교는 모두 통과하지만 Object의 == 비교는 리터럴과 스트링 객체간에 서로 다르기 때문에 같지 않다. 대신 expectedObject의 intern method를 호출한 후의 값은 String pool의 참조를 리턴해주기 때문에 동일하게 true로 리턴된다.
+
+또한 리터럴로 동일한 스트링을 선언했을 때(reference String)는 동일하게 String pool에서 같은 참조를 바라보고 있기 때문에 ==, equals가 모두 true로 나온다.
 
 ## 11/14
 
