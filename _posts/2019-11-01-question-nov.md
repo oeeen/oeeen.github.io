@@ -9,6 +9,46 @@ tags: web
 
 **틀린 내용이나 본문의 내용과 다른 의견이 있으시면 댓글로 남겨주세요!**
 
+## 11/20
+
+![oauth-protocol](/assets/img/question_list/oauth-protocol.png)
+
+- OAuth 2.0
+  - OAuth 1에 비해 인증 절차가 간소화 됨
+    - 암호화는 https에 맡김 (디지털 서명 로직이 필요 없어짐)
+  - 내 서버가 Client, 내 서버를 이용하는 것이 Resource Owner, Github 서버가 Resource Server(Authorization server)
+  - 다양한 인증 방식
+    - Authorization Code Grant
+    - Implicit Grant
+    - Resource Owner Password Credentials Grant
+    - Client Credentials Grant
+    - Device Code Grant
+    - Refresh Token Grant
+  - Authorization Code Grant
+    - ![authorization-code-grant](/assets/img/question_list/authorization-code-grant.png)
+    - Access Token과 Refresh Token을 둘다 얻으려고 할 때 사용된다.
+    - 클라이언트가 Authorization server에 인증 요청을 한다. (Redirect URL 포함)
+    - Authorization Server는 유저에게 로그인창을 띄움(Github으로 로그인~ 이런 것)
+    - Authorization Server는 인증 코드를 클라이언트에게 제공
+    - 클라이언트는 인증 코드로 Authorization Server에 Access Token을 요청한다.
+    - Authorization Server는 클라이언트에 Access Token을 발급한다.
+    - Access Token을 이용하여 Resource Server의 자원을 접근할 수 있게 된다.
+    - 토큰이 만료되면 refresh token을 이용해 토큰을 재발급 받는다.
+  - Implicit Grant
+    - ![implicit-grant](/assets/img/question_list/implicit-grant.png)
+    - 클라이언트가 Authorization server에 인증 요청
+    - 유저는 Authorizatiojn server를 통해 인증
+    - Authorization server는 Access token을 포함하여 클라이언트의 Redirect url 호출
+    - 클라이언트는 Access token이 유효한지 Authorization server에 인증 요청
+    - Authorization server는 토큰이 유효하면 토큰의 expired time과 함께 리턴
+    - 클라이언트는 Resource server의 자원을 접근할 수 있게 된다.
+
+### 참고자료
+
+- [Spring Security OAuth2 소셜 인증](https://www.popit.kr/spring-security-oauth2-%EC%86%8C%EC%85%9C-%EC%9D%B8%EC%A6%9D/)
+- [RFC6749](https://tools.ietf.org/html/rfc6749)
+- [생활코딩](https://www.youtube.com/watch?v=hm2r6LtUbk8&index=1&list=PLuHgQVnccGMA4guyznDlykFJh28_R08Q-)
+
 ## 11/18
 
 - 자바의 String
