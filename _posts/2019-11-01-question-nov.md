@@ -9,6 +9,28 @@ tags: web
 
 **틀린 내용이나 본문의 내용과 다른 의견이 있으시면 댓글로 남겨주세요!**
 
+## 11/23
+
+### ComponentScan
+
+- 스프링은 어노테이션 컴포넌트들을 스캔하기 위한 패키지를 알 필요가 있다.(IoC 컨테이너에 추가하기 위해서) 스프링부트에서는 보통 @SpringBootApplication을 볼 수 있다. 이 안에 들어가보면 @Configuration, @ComponentScan, @EnableAutoConfiguration 이런 어노테이션들이 달려있다. 이런 기본 설정과 함께 스프링부트는 현재 패키지 안의 컴포넌트들을 스캔한다.(스프링부트 메인 클래스를 포함하는 패키지와 그 하위 패키지들)
+- @ComponentScan 어노테이션은 어노테이션 달려있는 컴포넌트들을 스캔할 패키지를 스프링에게 알려주기 위해 @Configuration 어노테이션과 함께 쓰인다. @ComponentScan은 basePackages 또는 basePackageClasses attribute를 이용해서 베이스 패키지를 정한다.
+  - 여기서 basePackageClasses는 type safe한 basePackages다.
+- 스프링이 제공하는 다른 타입의 필터를 사용해서 컴포넌트 스캔을 설정할 수 있다.
+  - 필터를 사용해서 베이스 패키지 내에 있는 모든 것들로부터 후보를 좀 좁힐 수 있다. (필터에 맞는 애들로)
+  - 필터는 include, exclude 필터가 있다. (이름이 말해주는 그대로 동작한다.)
+  - default filter를 없애려면 useDefaultFilters를 false로 한다. `@ComponentScan(useDefaultFilters = false)`
+  - FilterType은 다음과 같다.
+    - FilterType.ANNOTATION: stereotype 어노테이션 달려있는 클래스들을 포함, 제외
+    - FilterType.ASPECTJ: AspectJ 타입 패턴 표현을 사용한 클래스 포함, 제외
+    - FilterType.ASSIGNABLE_TYPE: 이 클래스나 인터페이스를 extend, implement 하는 클래스들을 포함, 제외
+    - FilterType.REGEX: 정규표현식 사용해서 클래스 포함, 제외
+    - FilterType.CUSTOM: TypeFilter 인터페이스를 implement 해서 커스텀으로 만든 필터 사용해서 클래스들을 포함, 제외
+- @SpringBootApplication 어노테이션은 `@ComponentScan(excludeFilters = { @Filter(type = FilterType.CUSTOM, classes = TypeExcludeFilter.class), @Filter(type = FilterType.CUSTOM, classes = AutoConfigurationExcludeFilter.class) })`를 가지고 있다.
+  - 살펴보면 TypeExcludeFilter, AutoConfigurationExcludeFilter를 제외한다.
+    - TypeExcludeFilter는 주석을 살펴보면, 잘 모르겠다. spring-boot-test를 위해 주로 사용된다고 한다.
+    - AutoConfigurationExcludeFilter의 match 메서드를 살펴보면 `return isConfiguration(metadataReader) && isAutoConfiguration(metadataReader);` 라고 되어있는데 AutoConfiguration이면서 Configuration 어노테이션이 달려있는 클래스면 match method가 true가 되어서 ComponentScan에서 제외된다.
+
 ## 11/20
 
 ![oauth-protocol](/assets/img/question_list/oauth-protocol.png)
@@ -43,7 +65,7 @@ tags: web
     - Authorization server는 토큰이 유효하면 토큰의 expired time과 함께 리턴
     - 클라이언트는 Resource server의 자원을 접근할 수 있게 된다.
 
-### 참고자료
+### 참고자료(OAuth)
 
 - [Spring Security OAuth2 소셜 인증](https://www.popit.kr/spring-security-oauth2-%EC%86%8C%EC%85%9C-%EC%9D%B8%EC%A6%9D/)
 - [RFC6749](https://tools.ietf.org/html/rfc6749)
