@@ -9,6 +9,43 @@ tags: web
 
 **틀린 내용이나 본문의 내용과 다른 의견이 있으시면 댓글로 남겨주세요!**
 
+## 11/25
+
+- ContextLoaderListener
+
+Spring의 ContextLoaderListener가 아닌, DI미션 중 ContextLoaderListener를 기준으로 알아본다.
+
+```java
+@WebListener
+public class ContextLoaderListener implements ServletContextListener
+```
+
+위와 같은 식으로 선언 되어있다.
+
+하나씩 살펴보면 @WebListener는 웹 어플리케이션 컨텍스트의 다양한 형태의 이벤트 리스너를 선언하기 위해 사용된다.
+
+- javax.servlet.http.HttpSessionAttributeListener
+- javax.servlet.http.HttpSessionListener
+- javax.servlet.ServletContextAttributeListener
+- javax.servlet.ServletContextListener
+- javax.servlet.ServletRequestAttributeListener
+- javax.servlet.ServletRequestListener
+- javax.servlet.http.HttpSessionIdListener
+
+이 어노테이션이 붙은 클래스는 위의 인터페이스 중 한 가지 이상을 반드시 구현해야 한다. 그래서 DI 미션의 ContextLoaderListener는 ServletContextListener를 구현하고 있다.
+
+ServletContextListener를 살펴보면 이 인터페이스의 구현체(여기서는 ContextLoaderListener)는 웹 어플리케이션의 servlet context의 변화에 대한 알림을 받는다. 알림 이벤트를 받기 위해 구현체 클래스는 웹 어플리케이션의 web.xml(deployment descriptor)에 설정되어있어야 한다.
+
+`public void contextInitialized(ServletContextEvent sce);`는 웹 어플리케이션 초기화 과정이 시작한다는 알림이다. 어떤 필터나 서블릿도 초기화 되기 전에 컨텍스트의 초기화에 대한 알림을 받는다.
+
+`public void contextDestroyed(ServletContextEvent sce);`는 서블릿 컨텍스트가 끝날 때의 알림이다. 모든 ServletContextListener가 종료 알림을 받기 전에 모든 서블릿과 필터들은 destroy된다.
+
+ContextLoaderListener는 선택사항이다. Spring application을 ContextLoaderListener를 설정하는 것 없이 최소의 web.xml의 DispatcherServlet만으로 구동시킬 수 있다.
+
+더 복잡한 스프링 어플리케이션에서는 여러개의 DispatcherSerlvet을 가질 수 있다. 그리고 모든 DispatcherServlet에서 공유하는 공통의 ContextLoaderListener에 정의 된 스프링 설정 파일을 가질 수 있다.
+
+ContextLoaderListener는 root application context의 실제 초기화를 수행한다는 것만 생각하면 된다.
+
 ## 11/23
 
 ### ComponentScan
