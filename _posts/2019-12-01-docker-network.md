@@ -1,7 +1,7 @@
 ---
 layout: single
 title:  "Networking with standalone containers"
-date:   2019-12-01 18:55:59 +0900
+date:   2019-12-01 17:50:59 +0900
 classes: wide
 categories: etc
 tags: docker
@@ -9,9 +9,11 @@ tags: docker
 
 ## Docker 공식문서 번역 - [Networking with standalone containers](https://docs.docker.com/network/network-tutorial-standalone/)
 
-이 글은 Standalone 도커 컨테이너의 네트워크를 다루기 위한 튜토리얼 문서입니다. **내용 중 제 개인 판단으로 불필요하다고 생각하는 부분은 생략했습니다.**
+이 글은 Standalone 도커 컨테이너의 네트워크를 다루기 위한 튜토리얼 문서입니다.
 
-여기에는 3가지 튜토리얼이 있다.
+**내용 중 제 개인 판단으로 불필요하다고 생각하는 부분은 생략했습니다.**
+
+이 글에는 아래 네트워크에 대한 설명을 한다. 그러나 overlay network는 다른 문서에서 설명한다.
 
 1. Default bridge network
 2. User-defined bridge network
