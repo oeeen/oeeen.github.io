@@ -7,7 +7,7 @@ categories: web
 tags: 
 ---
 
-# 나의 웹 어플리케이션을 jenkins로 배포 해보자
+## 나의 웹 어플리케이션을 jenkins로 배포 해보자
 
 일단 목표는 젠킨스 서버를 띄우고 젠킨스 서버에서 git repository pull(push가 들어오면 - 특정 브랜치) 한 후 build 하고 자동으로 배포까지 진행되는 것을 목표로 했다. (**무중단 배포**는 나중일이다..)
 
@@ -30,13 +30,13 @@ ssh -i  KEY-TRAINING-oeeen.pem ubuntu@[EC2-public-ip]
 
 왜냐하면 젠킨스에서 빌드 완료된 jar file을 실행하는 컨테이너가 필요했기 때문이다..
 
-젠킨스 컨테이너만을 사용하려면 
+젠킨스 컨테이너만을 사용하려면
 
-`sudo docker run --name myblog -d -p 8000:8080 -p 50000:50000 jenkins/jenkins:lts` 
+`sudo docker run --name myblog -d -p 8000:8080 -p 50000:50000 jenkins/jenkins:lts`
 
 로 실행하면 된다.
 
-그런데 위와 같은 필요사항이 있었기 때문에! Dockerfile을 만드는 Docker 자체의 DSL을 살짝 공부해야 한다. 
+그런데 위와 같은 필요사항이 있었기 때문에! Dockerfile을 만드는 Docker 자체의 DSL을 살짝 공부해야 한다.
 
 ## Dockerfile을 만들어보자
 
@@ -53,7 +53,6 @@ docker build 커맨드는 Dockerfile과 context로부터 도커 이미지를 만
 --file, -f | Dockerfile 이름, Name of the Dockerfile (Default is ‘PATH/Dockerfile’)
 
 아무튼 docker build를 이용해서 내가 원하는 도커 이미지를 만들어야 한다.
-
 
 ### **FROM**
 
@@ -85,41 +84,53 @@ CMD 의 주 목적은 컨테이너 실행하는데 default를 제공 하기 위�
 
 * LABEL - `LABEL <key>=<value> <key>=<value> <key>=<value> ...`
 * EXPOSE - `EXPOSE <port> [<port>/<protocol>...]` ex) EXPOSE 80/udp
-* ENV 
+* ENV
+
 ```dockerfile
 ENV <key> <value>
 ENV <key>=<value> ...
 ```
+
 * ADD
+
 ```dockerfile
 ADD [--chown=<user>:<group>] <src>... <dest>
 ADD [--chown=<user>:<group>] ["<src>",... "<dest>"] (this form is required for paths containing whitespace)
 ```
+
 * COPY
+
 ```dockerfile
 COPY [--chown=<user>:<group>] <src>... <dest>
 COPY [--chown=<user>:<group>] ["<src>",... "<dest>"] (this form is required for paths containing whitespace)
 ```
+
 * ENTRYPOINT
+
 ```dockerfile
 ENTRYPOINT ["executable", "param1", "param2"] (exec form, preferred)
 ENTRYPOINT command param1 param2 (shell form)
-```dockerfile
+```
+
 * VOLUME - `VOLUME ["/data"]`
 * USER
+
 ```dockerfile
 USER <user>[:<group>] or
 USER <UID>[:<GID>]
 ```
+
 * WORKDIR - `WORKDIR /path/to/workdir`
 * ARG - `ARG <name>[=<default value>]`
 * ONBUILD - `ONBUILD [INSTRUCTION]`
 * STOPSIGNAL - `STOPSIGNAL signal`
 * HEALTHCHECK -
+
 ```dockerfile
 HEALTHCHECK [OPTIONS] CMD command (check container health by running a command inside the container)
 HEALTHCHECK NONE (disable any healthcheck inherited from the base image)
 ```
+
 * SHELL - `SHELL ["executable", "parameters"]`
 
 이렇게 명령어가 너무 많다... 지금 다 알아보기는 힘들 것 같다. 사용하면서 필요하다고 느끼는 것을 차차 알아가면 될 것 같다.
@@ -172,12 +183,11 @@ docker hub에 push를 하면 또 약간의 시간이 걸리면서 아래처럼 �
 
 ![Docker Push](/assets/img/docker/docker_push.png)
 
-
 이제 EC2 인스턴스에서 아래와 같은 명령으로 docker가 설치되어 있는 jenkins(oeeen/jenkins:v1)을 실행 할 수 있게 되었다!
 
 ```bash
 # 도커 컨테이너 실행 명령어
-sudo docker run 
+sudo docker run \
     --name jenkins \
     -itd \
     -e JENKINS_USER=$(id -u) \
@@ -191,3 +201,5 @@ sudo docker run
 이제 docker가 설치된 jenkins 컨테이너가 준비되었다!!
 
 이제 본격적으로 배포 과정을 진행할 수 있을 것 같다!
+
+* [2편](https://smjeon.dev/web/deploy-with-jenkins-2/)
