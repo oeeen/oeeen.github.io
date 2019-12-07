@@ -169,3 +169,5 @@ flush privileges;
 다음으로 할 일은 Github push가 들어오면 그것으로 build triggering 되도록 변경 해야 한다.
 
 그리고 이미 서버가 떠있는 상태에서 새로 Github에 push가 들어올 때 새롭게 빌드를 하고 서버가 죽지 않은 상태에서 새로운 커밋 내용들이 반영되도록 **무중단 배포**를 할 예정이다.
+
+- [3편](https://smjeon.dev/web/deploy-with-jenkins-3/)

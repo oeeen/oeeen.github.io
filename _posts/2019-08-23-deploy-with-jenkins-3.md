@@ -94,3 +94,5 @@ Kind를 Secret text로 변경 하고 Secret 값을 아까 위에서 얻어놓았
 이 과정은 프로젝트 관리 관련해서 github 계정이 필요할 때 사용 할 것 같은데, 현재 push 이벤트만 hooking 해서 빌드 자동화만 하기 때문에 필요 없는 과정이다.
 
 다음 포스트는 nginx를 이용한 무중단 배포에 대해 쓸 예정이다.
+
+- [4편](https://smjeon.dev/web/deploy-with-jenkins-4/)
