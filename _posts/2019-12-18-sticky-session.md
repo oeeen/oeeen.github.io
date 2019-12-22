@@ -3,7 +3,7 @@ layout: single
 title:  "Sticky Session과 Session Clustering"
 date:   2019-12-18 02:00:00 +0900
 classes: wide
-categories: etc
+categories: web
 tags: session
 ---
 

@@ -3,7 +3,7 @@ layout: single
 title:  "Load balancing Algorithm"
 date:   2019-12-16 23:00:00 +0900
 classes: wide
-categories: etc
+categories: web
 tags: session
 ---
 
