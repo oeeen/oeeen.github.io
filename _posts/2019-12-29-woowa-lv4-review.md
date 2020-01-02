@@ -5,6 +5,8 @@ date:   2019-12-29 15:23:59 +0900
 classes: wide
 categories: reflection
 tags: techcourse
+toc: true
+toc_sticky: true
 ---
 
 ## 우아한테크코스 4단계 회고
