@@ -5,6 +5,8 @@ date:   2019-09-12 21:55:59 +0900
 classes: wide
 categories: etc
 tags: kubernetes
+toc: true
+toc_sticky: true
 ---
 
 ## 쿠버네티스가 왜 필요한가

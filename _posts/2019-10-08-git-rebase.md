@@ -5,6 +5,8 @@ date:   2019-10-08 23:30:00 +0900
 classes: wide
 categories: git
 tags: git
+toc: true
+toc_sticky: true
 ---
 
 우아한테크코스의 woowacourse 브랜치에 Pull Request 날린 이후에 Step2 미션을 진행하기 전 커밋 로그를 한 줄로 예쁘게 rebase를 하고 싶을 때 방법을 정리해둔 글입니다.

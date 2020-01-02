@@ -5,6 +5,8 @@ date:   2019-10-27 15:00:00 +0900
 classes: wide
 categories: git
 tags: git
+toc: true
+toc_sticky: true
 ---
 
 누군가의 요청을 받아 cherry-pick에 대해 정리한 문서입니다. 사용법을 이해하고 싶으시면 아래 **예시 부분**을 먼저 보세요.

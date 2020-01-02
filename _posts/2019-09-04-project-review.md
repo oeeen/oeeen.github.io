@@ -5,6 +5,8 @@ date:   2019-09-04 15:00:59 +0900
 classes: wide
 categories: reflection
 tags: project
+toc: true
+toc_sticky: true
 ---
 
 ## 우아한테크코스 Step2 - Mini project 회고

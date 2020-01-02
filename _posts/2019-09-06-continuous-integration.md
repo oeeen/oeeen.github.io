@@ -5,6 +5,8 @@ date:   2019-09-06 23s:00:59 +0900
 classes: wide
 categories: etc
 tags: ci
+toc: true
+toc_sticky: true
 ---
 
 ## 지속적 통합

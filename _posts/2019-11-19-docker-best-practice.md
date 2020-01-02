@@ -5,6 +5,8 @@ date:   2019-11-19 18:55:59 +0900
 classes: wide
 categories: etc
 tags: docker
+toc: true
+toc_sticky: true
 ---
 
 ## Docker 공식문서 번역 - [Best practices for writing Dockerfiles](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/)

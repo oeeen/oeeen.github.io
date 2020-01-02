@@ -5,11 +5,16 @@ date:   2019-07-30 23:00:00 +0900
 classes: wide
 categories: git
 tags: git
+toc: true
+toc_sticky: true
 ---
-## Branch란?
+
+## Branch란
+
 Git은 데이터를 일련의 스냅샷으로 기록한다.
 
-### 예시
+### Branch 예시
+
 파일이 3개 있는 디렉토리가 하나 있고, 이 파일을 Staging Area에 저장하고 커밋 하는 과정.
 
 `git commit`으로 커밋하면 루트 디렉토리와 각 하위 디렉토리의 트리 개체를 체크섬(파일 이름인듯)과 함께 저장소에 저장한다. 그다음에 커밋 개체를 만들고 메타 데이터(author, commit message, snapshot pointer)와 루트 디렉토리 트리 개체를 가리키는 포인터 정보를 커밋 개체에 넣어서 저장한다.
@@ -19,13 +24,15 @@ Git은 데이터를 일련의 스냅샷으로 기록한다.
 Git의 브랜치는 커밋 사이를 이동할 수 있는 포인터 라고 생각하면 된다.
 
 ### 연습
+
 `git branch test` 로 새로운 브랜치를 만들면 현재 작업하고 있던 마지막 커밋을 가리키는 새로운 브랜치가 생성된다. (현재 작업 중인 브랜치는 HEAD 기준)
 
 `git checkout [브랜치명]`으로 해당 브랜치로 이동할 수 있다.
 
-그 브랜치로 checkout 하고 commit을 하면 HEAD가 가리키고 있는 브랜치에만 commit이 쌓인다. 
+그 브랜치로 checkout 하고 commit을 하면 HEAD가 가리키고 있는 브랜치에만 commit이 쌓인다.
 
-**예시**
+#### 예시 (Branch, Checkout)
+
 ```bash
 git branch test
 git checkout test
@@ -40,17 +47,17 @@ git commit -m "master branch commit"
 
 위와 같은 과정을 진행한다고 해보자.
 
-**초기 모습**
+#### 초기 모습
 
 master branch에 Commit 3개가 쌓여있다.
 
 ![Initial Condition](/assets/img/gitbranch/0.png)
 
-**Test branch로 Checkout**
+#### Test branch로 Checkout
 
 ![Test Checkout](/assets/img/gitbranch/1.png)
 
-**Test branch에서 Commit**
+#### Test branch에서 Commit
 
 test branch에서 testFile.txt 파일을 추가하고 commit을 진행 한다.
 
@@ -58,22 +65,22 @@ test branch에서 testFile.txt 파일을 추가하고 commit을 진행 한다.
 
 ![Test Commit](/assets/img/gitbranch/2.png)
 
-**Master branch로 Checkout**
+#### Master branch로 Checkout
 
 HEAD만 master branch쪽으로 이동했다.
 
 ![Master Checkout](/assets/img/gitbranch/3.png)
 
-**Master branch에서 Commit**
+#### Master branch에서 Commit
 
 test branch와 상관 없이 새로운 Commit A5가 생성된다.
 
 ![Master Commit](/assets/img/gitbranch/4.png)
 
-
 이렇게 브랜치를 나누어서 커밋을 쌓을 수 있기 때문에..
 
 ## Merge
+
 위와 같은 상황에서 master branch에 test branch를 merge 해보자.
 
 ```bash
@@ -94,6 +101,7 @@ git merge test
 merge가 끝난 이후에는 test branch가 더이상 필요 없으니 `git branch -d test`와 같은 명령으로 지우면 된다.
 
 ## Conflict
+
 위와 같은 merge 작업을 진행하다가 실패 할 때가 있다. 두 브랜치(test, master)가 서로 같은 파일의 같은 부분을 수정했다면 merge가 실패한다.
 
 Conflict가 발생하면 이 Conflict를 해결 해주면 된다.
@@ -101,6 +109,7 @@ Conflict가 발생하면 이 Conflict를 해결 해주면 된다.
 이 conflict 발생 후 `git status` 명령으로 어떤 파일이 문제였는지 파악하고, 그 파일을 vim이나 각종 diff툴을 이용하여 해결하면 된다.
 
 ## Remote Branch
+
 리모트 Refs는 리모트 저장소에 있는 포인터인 레퍼런스다. 리모트 저장소에 있는 브랜치, 태그 등..
 
 `git ls-remote (remote)`로 모든 리모트 Refs를 조회할 수 있다.
@@ -129,12 +138,9 @@ Conflict가 발생하면 이 Conflict를 해결 해주면 된다.
 
 ![remote-committed](/assets/img/gitbranch/9.jpg)
 
-
 ![local-committed](/assets/img/gitbranch/10.jpg)
 
-이 상황에서 `git fetch origin` 명령어로 리모트 서버의 상황을 로컬에 동기화 하면 아래 상황처럼 바뀐다. 
-
-
+이 상황에서 `git fetch origin` 명령어로 리모트 서버의 상황을 로컬에 동기화 하면 아래 상황처럼 바뀐다.
 
 ![remote-committed](/assets/img/gitbranch/9.jpg)
 
@@ -172,7 +178,8 @@ git checkout -b 원하는브랜치명 pair/페어의원격브랜치명
 이런 식으로 진행하면 된다.
 
 ## Branch Tracking
-리모트 트래킹 브랜치를 로컬 브랜치로 checkout 하면 자동으로 트래킹 브랜치가 만들어진다. 
+
+리모트 트래킹 브랜치를 로컬 브랜치로 checkout 하면 자동으로 트래킹 브랜치가 만들어진다.
 
 트래킹 브랜치는 리모트 브랜치와 직접 연결고리가 있는 로컬 브랜치이다.
 
@@ -189,15 +196,15 @@ git checkout -b 원하는브랜치명 pair/페어의원격브랜치명
 트래킹 브랜치가 어떻게 설정되어 있는지 보려면
 `git branch -vv` 명령으로 확인 할 수 있다.
 
-**리모트 브랜치 삭제**
+### 리모트 브랜치 삭제
 
 리모트 브랜치를 만들었다가 작업을 끝내고 master브랜치로 merge 했다. 그러면 이제 그 리모트 브랜치는 필요가 없기 때문에 삭제해도 된다.
 
 그러면 `git push origin --delete 리모트브랜치명` 를 실행하면 된다.
 그러면 그 remote branch를 가리키는 포인터가 사라진다! (가비지 컬렉터가 동작하기 전에는 다시 살릴수도 있다.)
 
-
 ## Rebase
+
 위에서 merge 했던 상황으로 돌아가본다.
 
 ![Master Commit](/assets/img/gitbranch/4.png)
@@ -205,6 +212,7 @@ git checkout -b 원하는브랜치명 pair/페어의원격브랜치명
 ![Merge](/assets/img/gitbranch/5.png)
 
 rebase는 이 merge와 비슷한 방식이다.
+
 ```bash
 git checkout test
 git rebase master
@@ -224,6 +232,7 @@ git merge test
 ![fast-forward](/assets/img/gitbranch/15.jpg)
 
 ## Rebase의 위험성
+
 **공개 저장소(리모트 저장소)에 Push한 커밋을 Rebase하지 마라!**
 
 rebase는 기존의 커밋을 그대로 사용하는 것이 아니라 내용은 같은데 다른 커밋을 새로 만든다.

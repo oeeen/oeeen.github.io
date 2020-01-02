@@ -5,6 +5,8 @@ date:   2019-07-13 15:01:59 +0900
 categories: etc
 classes: wide
 tag: java
+toc: true
+toc_sticky: true
 ---
 
 ## LazyHolder

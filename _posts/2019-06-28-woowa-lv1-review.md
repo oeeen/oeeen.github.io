@@ -5,6 +5,8 @@ date:   2019-06-28 23:00:59 +0900
 classes: wide
 categories: reflection
 tags: techcourse
+toc: true
+toc_sticky: true
 ---
 
 ![techcourse poster](/assets/img/reflection/techcourse_poster.jpeg)
@@ -72,7 +74,6 @@ tags: techcourse
 > 내가 다 알고 있었으면 여기서 교육 안 받았지.  
 > 아직 1단계니까. 좀 더 잘하면 좋겠지만 못했다고 해서 잘못된 것은 아니다.  
 > 더 잘할 수 있고, 뭐 다른 사람을 의식해서 따라잡으려고 한다면. 남들보다 +1만큼만 더 열심히 하면. 느리더라도 따라잡을 수 있다.
-
 > 사실 따라잡을 필요 없다. 멈추지만 않는다면 목적지에 도달 할 것이라고 믿는다.
 
 ### 그럴수 있지

@@ -5,6 +5,8 @@ date:   2019-09-07 17:00:00 +0900
 classes: wide
 categories: git
 tags: git
+toc: true
+toc_sticky: true
 ---
 
 ## 대화형 명령

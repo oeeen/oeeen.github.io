@@ -5,6 +5,8 @@ date:   2019-08-23 21:00:59 +0900
 classes: wide
 categories: web
 tags: jenkins
+toc: true
+toc_sticky: true
 ---
 
 ## 나의 웹 어플리케이션을 jenkins로 배포 해보자 - 3

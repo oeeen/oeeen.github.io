@@ -5,6 +5,8 @@ date:   2019-08-18 01:00:59 +0900
 classes: wide
 categories: etc
 tags: gradle
+toc: true
+toc_sticky: true
 ---
 
 ## 빌드 시에 Test를 모두 돈 후에 빌드가 진행 되도록 해보자

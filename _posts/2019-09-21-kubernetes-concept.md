@@ -5,6 +5,8 @@ date:   2019-09-21 20:55:59 +0900
 classes: wide
 categories: etc
 tags: kubernetes
+toc: true
+toc_sticky: true
 ---
 
 ## Kubernetes in 5 mins

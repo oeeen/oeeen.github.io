@@ -5,8 +5,11 @@ date:   2019-07-31 23:00:00 +0900
 classes: wide
 categories: git
 tags: git
+toc: true
+toc_sticky: true
 ---
-# 리모트 저장소
+
+## 리모트 저장소
 
 ## 리모트 저장소 추가하기
 
@@ -20,7 +23,7 @@ tags: git
 
 리모트 저장소의 모든 브랜치를 로컬에서 접근할 수 있게 되어서 merge 하거나 내용을 볼 수 있게 된다.
 
-하지만 `git fetch` 명령은 remote의 모든 데이터를 가져오긴 하지만 merge하지는 않는다. 
+하지만 `git fetch` 명령은 remote의 모든 데이터를 가져오긴 하지만 merge하지는 않는다.
 
 그래서 로컬에서 하던 작업을 모두 정리한 후 수동으로 merge를 진행 해야한다.
 
@@ -28,14 +31,13 @@ tags: git
 
 그리고 `git pull` 명령은 Clone한 서버에서 데이터를 가져오고 그 데이터를 자동으로 현재 작업 하는 코드와 Merge 시킨다.
 
-
 ## 원격 저장소에 Push하기
 
 `git push origin master` 하면 origin 서버의 master 브랜치로 push 된다.
 
-`git remote show origin` 같은 작업을 하면 
+`git remote show origin` 같은 작업을 하면
 
-```
+```bash
 remote origin
 Fetch URL: ~~
 Push URL: ~~~
@@ -57,6 +59,7 @@ Local ref configured for 'git push':
 push를 하면 로컬의 oeeen 브랜치에서 원격의 oeeen으로 푸시된다.
 
 ## 기타 명령어
+
 ```bash
 git remote rm [alias]
 git remote rename [기존 alias] [new alias]

@@ -5,6 +5,8 @@ date:   2019-09-23 19:55:59 +0900
 classes: wide
 categories: etc
 tags: process thread
+toc: true
+toc_sticky: true
 ---
 
 ## Process vs. Thread

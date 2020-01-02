@@ -5,6 +5,8 @@ date:   2019-10-07 22:00:00 +0900
 classes: wide
 categories: etc
 tags: java
+toc: true
+toc_sticky: true
 ---
 
 누군가에게 `상속과 composite`의 개념에 대해 듣고 정리를 하기 위해 여러 블로그들을 참조하고, `Effective Java 3/E Item 18. 상속보다는 컴포지션을 사용하라.` 의 내용 정리입니다.

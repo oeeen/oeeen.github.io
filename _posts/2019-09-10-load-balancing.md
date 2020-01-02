@@ -5,6 +5,8 @@ date:   2019-09-10 18:00:59 +0900
 classes: wide
 categories: etc
 tags: loadbalancing
+toc: true
+toc_sticky: true
 ---
 
 대용량 서비스를 운영하려면 부하 분산은 필수다. 대용량 트래픽을 장애 없이 처리하려면 여러 대의 서버에 적절히 트래픽을 분배해야 한다.

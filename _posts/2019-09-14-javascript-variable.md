@@ -5,6 +5,8 @@ date:   2019-09-14 18:55:59 +0900
 classes: wide
 categories: etc
 tag: javascript
+toc: true
+toc_sticky: true
 ---
 
 ## 특수한 값

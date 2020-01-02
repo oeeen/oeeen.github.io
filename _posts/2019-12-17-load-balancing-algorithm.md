@@ -5,6 +5,8 @@ date:   2019-12-16 23:00:00 +0900
 classes: wide
 categories: web
 tags: session
+toc: true
+toc_sticky: true
 ---
 
 ## 로드 밸런싱 알고리즘

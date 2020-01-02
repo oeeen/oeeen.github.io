@@ -4,6 +4,8 @@ title:  "Docker Basic"
 date:   2019-08-07 17:30:59 +0900
 classes: wide
 categories: web
+toc: true
+toc_sticky: true
 ---
 
 ## Docker Basic
@@ -48,7 +50,7 @@ Ubuntu 이미지가 A + B + C의 집합이라면, ubuntu 이미지를 베이스�
 
 옵션 | 설명
 --- | ---
--i | 상호 작용 할 수 있게 한다. (Keep STDIN open even if not attached) 
+-i | 상호 작용 할 수 있게 한다. (Keep STDIN open even if not attached)
 -t | tty 사용 (Allocate a pseudo-TTY, 터미널 환경 쓸수 있게 된다.)
 -d | Container를 백그라운드로 실행하고 Container ID를 출력한다. (Run container in background and print container ID)
 -e | 환경변수 설정. (예를 들어 mysql을 사용한다고 할때 root의 패스워드 설정이라거나,, 여러 환경변수를 설정할 수 있다.) - (Set environment variables)

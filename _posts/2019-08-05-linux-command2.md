@@ -5,6 +5,8 @@ date:   2019-08-05 01:00:00 +0900
 classes: wide
 categories: etc
 tag: linux
+toc: true
+toc_sticky: true
 ---
 
 ## 명령어들

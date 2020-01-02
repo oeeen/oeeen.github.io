@@ -5,6 +5,8 @@ date:   2019-08-13 23:00:59 +0900
 classes: wide
 categories: etc
 tags: entity vo
+toc: true
+toc_sticky: true
 ---
 
 이 글은 항상 논쟁거리가 되는 Entity, VO가 각각 무엇을 의미하는지 토론이 벌어질 때 마다 추가 되는 글입니다.

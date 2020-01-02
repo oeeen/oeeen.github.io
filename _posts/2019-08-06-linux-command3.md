@@ -5,6 +5,8 @@ date:   2019-08-06 23:30:59 +0900
 classes: wide
 categories: etc
 tag: linux
+toc: true
+toc_sticky: true
 ---
 
 ## 커맨드라인 편집

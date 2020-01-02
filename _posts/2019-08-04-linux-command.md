@@ -5,6 +5,8 @@ date:   2019-08-04 23:00:00 +0900
 classes: wide
 categories: etc
 tag: linux
+toc: true
+toc_sticky: true
 ---
 
 ## Linux CommandLine 기본 (진짜 기본)

@@ -5,6 +5,8 @@ date:   2019-12-08 12:50:59 +0900
 classes: wide
 categories: etc
 tags: docker
+toc: true
+toc_sticky: true
 ---
 
 ## Docker 공식문서 번역 - [Overview of Docker Compose](https://docs.docker.com/compose/)

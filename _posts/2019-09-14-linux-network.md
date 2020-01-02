@@ -5,6 +5,8 @@ date:   2019-09-14 23:00:59 +0900
 classes: wide
 categories: etc
 tag: linux
+toc: true
+toc_sticky: true
 ---
 
 ## 네트워킹

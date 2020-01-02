@@ -5,6 +5,8 @@ date:   2019-09-28 10:00:59 +0900
 classes: wide
 categories: reflection
 tags: techcourse
+toc: true
+toc_sticky: true
 ---
 
 우아한테크코스 1, 2단계를 진행하면서 크루들, 코치들에게 받은 피드백을 정리하고 반성하고 나의 장점은 무엇인지 쓰는 글입니다.

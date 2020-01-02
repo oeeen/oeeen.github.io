@@ -5,6 +5,8 @@ date:   2019-08-24 15:00:59 +0900
 classes: wide
 categories: web
 tags: restful web rmm
+toc: true
+toc_sticky: true
 ---
 
 전에 취업준비 할 때도 자기소개서에도 썼었고, 많이 들어보기만 했던 개념이지만 확실하게 무엇인지는 모르고 지나쳤고 정리한 적도 없었던 개념이다. 구글링하며 얻은 정보들을 정리 해 둔다.

@@ -5,6 +5,8 @@ date:   2019-08-26 01:00:59 +0900
 classes: wide
 categories: etc
 tag: linux
+toc: true
+toc_sticky: true
 ---
 
 ## 환경 변수
