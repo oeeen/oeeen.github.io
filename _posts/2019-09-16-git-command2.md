@@ -5,8 +5,6 @@ date:   2019-09-16 23:00:00 +0900
 classes: wide
 categories: git
 tags: git
-toc: true
-toc_sticky: true
 ---
 
 ## 검색
