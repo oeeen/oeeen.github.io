@@ -154,7 +154,7 @@ pipeline {
         stage('Deploy') {
             when {
               expression {
-                currentBuild.result == null || currentBuild.result == 'SUCCESS' 
+                currentBuild.result == null || currentBuild.result == 'SUCCESS'
               }
             }
             steps {
@@ -170,6 +170,287 @@ pipeline {
 currentBuild.result 변수에 접근하면 파이프라인에서 테스트 실패 여부를 확인할 수 있다. 실패했을 경우에는 이 값은 사용할 수 없다. Jenkins 파이프라인에서 성공적으로 실행되었다고 가정하면, 각각의 파이프라인 실행은 관련된 build artifacts(테스트 결과, 전체 console output)를 저장한다.
 
 Scripted pipeline은 위에 나타난 조건부 테스트, 루프, try/catch/finally 블럭과 다른 기능들을 포함할 수 있다. 다음 섹션에서 이 고급 스크립트로 작성된 파이프라인 syntax를 더 자세히 알아볼 것이다.
+
+## Working with your Jenkinsfile
+
+다음 섹션에서는 다음에 나오는 내용의 디테일을 설명한다.
+
+1. 네 Jenkinsfile의 특별한 파이프라인 문법
+2. 애플리케이션 또는 파이프라인 프로젝트를 구축하는 데 필수적인 파이프라인 구문의 특징 및 기능.
+
+### String interpolation
+
+Jenkins 파이프라인은 Groovy와 동일한 규칙을 사용한다. Groovy는 예를 들어 다음과 같은 ''과 ""을 모두 지원한다.
+
+```groovy
+def singlyQuoted = 'Hello'
+def doublyQuoted = "World"
+```
+
+이 뒤의 예시에서 나오는 것처럼 $ 기반의 String interpolation을 지원한다.
+
+```groovy
+def username = 'Jenkins'
+echo 'Hello Mr. ${username}'
+echo "I said, Hello Mr. ${username}"
+```
+
+위에 대한 실행 결과는 아래와 같다.
+
+```sh
+Hello Mr. ${username}
+I said, Hello Mr. Jenkins
+```
+
+그러니까 ""는 $ 사인을 값으로 변경해서 나타내주고, ''는 그대로 출력한다.
+
+### Using environment variables
+
+Jenkins 파이프라인은 Jenkinsfile 내 어디서든 사용할 수 있는 글로벌 변수를 공개했다. Jenkins pipeline 내에서 접근할 수 있는 환경 변수의 전체 목록은 `${YOUR_JENKINS_URL}/pipeline-syntax/globals#env`에 문서화 되어 있다. 이 목록에서 활용할 환경 변수가 있는지 먼저 확인해보는 것이 좋은 것 같다.
+
+![Jenkins file environment](/assets/img/til/jenkins_env.png)
+
+다음에 나오는 예시처럼 환경 변수에 groovy map안의 key처럼 접근할 수 있다.
+
+#### Jenkinsfile (Declarative Pipeline) - Environment variable
+
+```jenkinsfile
+pipeline {
+    agent any
+    stages {
+        stage('Example') {
+            steps {
+                echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
+            }
+        }
+    }
+}
+```
+
+### Setting environment variables
+
+Jenkins 파이프라인 내의 환경 변수 설정은 declarative 이냐, Scripted 파이프라인이냐에 따라서 다르게 수행된다.
+
+Declarative 파이프라인에서는 environment 지시어를 지원하는데, Scripted 파이프라인은 withEnv 단계를 사용해야한다.
+
+#### Jenkinsfile (Declarative Pipeline) - Setting Environment variable
+
+```jenkinsfile
+pipeline {
+    agent any
+    environment { // 전역 환경변수가 된다.
+        CC = 'clang'
+    }
+    stages {
+        stage('Example') {
+            environment { // 이 stage에서만 사용가능한 환경 변수가 된다.
+                DEBUG_FLAGS = '-g'
+            }
+            steps {
+                sh 'printenv'
+            }
+        }
+    }
+}
+```
+
+### Setting environment variables dynamically
+
+환경 변수는 런타임에 설정할 수 있고, 쉘 스크립트나 배치 스크립트, powershell 스크립트에서 사용할 수 있다. 각 스크립트는 returnStatus, returnStdout을 사용할 수 있다.
+
+아래는 returnStatus와 returnStdout이 모두 포함된 sh(shell)를 사용하는 declarative pipeline 예시다.
+
+```jenkinsfile
+Jenkinsfile (Declarative Pipeline)
+pipeline {
+    agent any // 맨 윗레벨의 agent는 none이면 안된다.
+    environment {
+        // Using returnStdout
+        CC = """${sh(
+                returnStdout: true,
+                script: 'echo "clang"'
+            )}"""
+        // Using returnStatus
+        EXIT_STATUS = """${sh(
+                returnStatus: true,
+                script: 'exit 1'
+            )}"""
+    }
+    stages {
+        stage('Example') {
+            environment {
+                DEBUG_FLAGS = '-g'
+            }
+            steps {
+                sh 'printenv'
+            }
+        }
+    }
+}
+```
+
+### Handling credentials
+
+Jenkins에 구성된 Credential을 즉시 사용할 수 있도록 파이프라인에서 처리할 수있다. [Using Credentials](https://jenkins.io/doc/book/using/using-credentials/)에 대한 자세한 내용을 읽어보면 된다.
+
+Secret Text, UserName, Password, Secretfiles
+
+Jenkins의 declarativve pipeline에서는 environment 지시자 내부에 credentials라는 helper 메서드를 가지고 있다. 위에 나온 인증 정보가 아닌 다른 인증 정보들은 아래 섹션을 참조해라.
+
+#### Secret Text
+
+다음 파이프라인 코드는 Secret Text Credentials를 위한 환경 변수를 사용하여 파이프라인을 작성하는 방법의 예를 보여준다.
+
+이 예에서는 AWS(Amazon Web Services)에 액세스하기 위해 두 개의 Secret text credentials를 별도의 환경 변수에 할당한다. 이러한 자격 증명은 Jenkins에서 각각의 자격 증명 ID(jenkins-aws-secret-key-id and jenkins-aws-secret-access-key)로 구성되었을 것이다.
+
+```jenkinsfile
+Jenkinsfile (Declarative Pipeline)
+pipeline {
+    agent {
+        // Define agent details here
+    }
+    environment {
+        AWS_ACCESS_KEY_ID     = credentials('jenkins-aws-secret-key-id')
+        AWS_SECRET_ACCESS_KEY = credentials('jenkins-aws-secret-access-key')
+    }
+    stages {
+        stage('Example stage 1') {
+            steps {
+                // [1]
+            }
+        }
+        stage('Example stage 2') {
+            steps {
+                // [2]
+            }
+        }
+    }
+}
+```
+
+1. 여기서는 `$AWS_ACCESS_KEY_ID`와 `$AWS_SECRET_ACCESS_KEY`를 가지고 두 가지 인증 정보를 참조할 수 있다. 그래서 이 단계에서 이 secret text를 사용해서 aws에 인증할 수 있다. 마치 github actions에서 제공하는 것처럼, echo $AWS_ACCESS_KEY_ID 와 같은 명령을 표시할 때는 *표시를 통해 암호화 한다. 그래도 악의적인 사용자가 이 자격 증명을 사용하는 것은 막는 것이 아니다. 신뢰할 수 없는 파이프라인 작업에서 신뢰할 수 있는 인증 정보를 사용하도록 허용하지 마라.
+2. 이 파이프라인 예제에서는 2개의 AWS 환경 변수가 전역적으로 선언되어 있어서 여기서도 사용할 수 있다. 그러나 환경변수의 범위를 특정 스테이지로 지정할 경우 해당 스테이지에서만 환경변수를 접근할 수 있게 된다.
+
+UserName, Password, Secretfiles들도 동일한 방식으로 접근하면 된다.
+
+### Handling parameters
+
+아래 예시에서 Greeting이라는 이름의 String parameter를 정의 할 수 있고, 이 파라미터는 `${params.Greeting}`를 통해 접근할 수 있다.
+
+```jenkinsfile
+Jenkinsfile (Declarative Pipeline)
+pipeline {
+    agent any
+    parameters {
+        string(name: 'Greeting', defaultValue: 'Hello', description: 'How should I greet the world?')
+    }
+    stages {
+        stage('Example') {
+            steps {
+                echo "${params.Greeting} World!"
+            }
+        }
+    }
+}
+```
+
+```groovy
+// Jenkinsfile (Scripted Pipeline)
+properties([parameters([string(defaultValue: 'Hello', description: 'How should I greet the world?', name: 'Greeting')])])
+
+node {
+    echo "${params.Greeting} World!"
+}
+```
+
+### Using multiple agents
+
+이 전에는 하나의 agent만 사용했다. 그러나 여러 agent를 사용하도록 나누면서 여러 플랫폼에서 빌드/테스트 실행 같은 사례에서도 사용할 수도 있고, 이 동작을 무시할 수도 있고 다양한 방법으로 활용할 수 있다.
+
+예시에서 build 단계는 하나의 agent에서 수행되고, 그 결과는 test stage에서 linux, window로 표시된 각각의 agent에서 사용된다.
+
+```jenkinsfile
+Jenkinsfile (Declarative Pipeline)
+pipeline {
+    agent none
+    stages {
+        stage('Build') {
+            agent any
+            steps {
+                checkout scm
+                sh 'make'
+                stash includes: '**/target/*.jar', name: 'app'
+            }
+        }
+        stage('Test on Linux') {
+            agent {
+                label 'linux'
+            }
+            steps {
+                unstash 'app'
+                sh 'make check'
+            }
+            post {
+                always {
+                    junit '**/target/*.xml'
+                }
+            }
+        }
+        stage('Test on Windows') {
+            agent {
+                label 'windows'
+            }
+            steps {
+                unstash 'app'
+                bat 'make check'
+            }
+            post {
+                always {
+                    junit '**/target/*.xml'
+                }
+            }
+        }
+    }
+}
+```
+
+위 파이프라인은 scripted pipeline으로 쓰면 다음과 같다.
+
+```groovy
+// Jenkinsfile (Scripted Pipeline)
+stage('Build') {
+    node {
+        checkout scm
+        sh 'make'
+        stash includes: '**/target/*.jar', name: 'app' // stash는 같은 파이프라인에서 재사용하기 위해 패턴이 일치하는 파일을 캡처한다.
+    }
+}
+
+stage('Test') {
+    node('linux') {
+        checkout scm
+        try {
+            unstash 'app' // unstash는 파이프라인의 현재 작업공간 내에 jenkins master로부터 stash라는 것을 찾는다(?, app이라는 이름을 찾는 것이 아닌가?)
+            sh 'make check'
+        }
+        finally {
+            junit '**/target/*.xml'
+        }
+    }
+    node('windows') {
+        checkout scm
+        try {
+            unstash 'app'
+            bat 'make check' // 윈도우에서는 batch script를..
+        }
+        finally {
+            junit '**/target/*.xml'
+        }
+    }
+}
+```
+
+이 외에 pipeline syntax를 알기 위해서는 다음 문서를 참고하면 된다. [Pipeline Syntax](https://jenkins.io/doc/book/pipeline/syntax/)
 
 ### 참고자료
 
