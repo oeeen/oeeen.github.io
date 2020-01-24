@@ -4,7 +4,7 @@ title:  "Jenkinsfile"
 date:   2020-01-24 12:50:59 +0900
 classes: wide
 categories: etc
-tags: docker
+tags: jenkins
 toc: true
 toc_sticky: true
 ---
