@@ -27,9 +27,8 @@ Jenkinsfile을 Source Control을 통해 관리함으로써 얻을 수 있는 이
 
 Jenkinsfile은 Jenkins 파이프라인의 정의를 포함하고 있는 텍스트 파일이다. 이 뒤로 나오는 CD(Continuous delivery) 파이프라인의 기본 3단계를 고려해봐라.
 
-#### Jenkinsfile (Declarative Pipeline)
-
 ```jenkinsfile
+Jenkinsfile (Declarative Pipeline)
 pipeline {
     agent any
 
@@ -66,9 +65,8 @@ stages, steps 라는 지시어는 유효한 declarative 파이프라인을 위�
 
 Scripted 파이프라인으로 작성된 더 고급 사용의 경우에는 예제의 맨 위에 있는 `node`라는 것이 실행자와 작업공간을 할당하기 위한 중요한 첫 단계이다. 애초에 node 없이는 파이프라인은 아무 일도 할 수 없다. 노드 내에서 첫 번째 일은 프로젝트의 소스 콛르르 체크아웃하는 것이다. Jenkinsfile이 소스 컨트롤(git과 같은) 직접 pull되고 있기 때문에, 파이프라인은 이 파일을 통해 가장 최신의 리비전에 접근할 수 있게된다.
 
-#### Jenkinsfile (Scripted Pipeline)
-
-```jenkinsfile
+```groovy
+// Jenkinsfile (Scripted Pipeline)
 node {
     checkout scm
     /* .. snip .. */
@@ -85,9 +83,8 @@ Jenkins는 일반적인 어떤 빌드 도구들도 호출 할 수 있는 플러�
 
 Jenkins has a number of plugins for invoking practically any build tool in general use, but this example will simply invoke make from a shell step (sh). The sh step assumes the system is Unix/Linux-based, for Windows-based systems the bat could be used instead.
 
-#### Jenkinsfile (Declarative Pipeline) - Build
-
 ```jenkinsfile
+Jenkinsfile (Declarative Pipeline)
 pipeline {
     agent any
 
@@ -114,9 +111,8 @@ Archiving artifacts는 nexus 같은 외부 artifacts 저장소를 대체하는 �
 
 아래 예시에서 테스트가 실패하면 웹 UI에서 노란 불로 표시된 것 처럼 파이프라인이 `unstable`로 표시된다. Jenkins는 여기서 기록된 Test report를 기반으로 시간 단위로 트렌드 분석과 시각화를 제공할 수 있다.
 
-#### Jenkinsfile (Declarative Pipeline) - Test
-
 ```jenkinsfile
+Jenkinsfile (Declarative Pipeline)
 pipeline {
     agent any
 
@@ -134,7 +130,7 @@ pipeline {
 }
 ```
 
-#### Scripted pipeline(고급) 으로 전환 - Build
+Scripted pipeline(고급) 으로 전환 - Build
 
 위 예시에서 `sh 'make check || true'` 부분에서는 테스트가 실패하더라도 항상 다음 스텝인 junit step이 진행되므로 테스트 보고서를 캡처하고 처리할 수 있다. 이렇게 하지 않기 위한 대안은 아래 Handling failure section에서 다룬다. junit step에서는 포함된 패턴(`*/target/*.xml`)과 일치하는 JUnit XML 파일을 캡처하고 연관짓는다.
 
@@ -144,9 +140,8 @@ pipeline {
 
 여기 나오는 예제 파이프라인 단계에서는 deploy 단계는 이전 단계인 Build, Test단계가 성공적으로 완료되었다고 가정할 때만 실행될 것이고, 그 전에 실패했으면 파이프라인은 일찍 종료될 것이다.
 
-#### Jenkinsfile (Declarative Pipeline) - Deploy
-
 ```jenkinsfile
+Jenkinsfile (Declarative Pipeline)
 pipeline {
     agent any
 
@@ -165,7 +160,7 @@ pipeline {
 }
 ```
 
-#### Scripted pipeline(고급) 으로 전환 - Deploy
+Scripted pipeline(고급) 으로 전환 - Deploy
 
 currentBuild.result 변수에 접근하면 파이프라인에서 테스트 실패 여부를 확인할 수 있다. 실패했을 경우에는 이 값은 사용할 수 없다. Jenkins 파이프라인에서 성공적으로 실행되었다고 가정하면, 각각의 파이프라인 실행은 관련된 build artifacts(테스트 결과, 전체 console output)를 저장한다.
 
@@ -212,9 +207,8 @@ Jenkins 파이프라인은 Jenkinsfile 내 어디서든 사용할 수 있는 글
 
 다음에 나오는 예시처럼 환경 변수에 groovy map안의 key처럼 접근할 수 있다.
 
-#### Jenkinsfile (Declarative Pipeline) - Environment variable
-
 ```jenkinsfile
+Jenkinsfile (Declarative Pipeline)
 pipeline {
     agent any
     stages {
@@ -233,9 +227,8 @@ Jenkins 파이프라인 내의 환경 변수 설정은 declarative 이냐, Scrip
 
 Declarative 파이프라인에서는 environment 지시어를 지원하는데, Scripted 파이프라인은 withEnv 단계를 사용해야한다.
 
-#### Jenkinsfile (Declarative Pipeline) - Setting Environment variable
-
 ```jenkinsfile
+Jenkinsfile (Declarative Pipeline)
 pipeline {
     agent any
     environment { // 전역 환경변수가 된다.
