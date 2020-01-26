@@ -1,5 +1,5 @@
 ---
-layout: single
+layout: post
 title:  "Git cherry-pick"
 date:   2019-10-27 15:00:00 +0900
 classes: wide

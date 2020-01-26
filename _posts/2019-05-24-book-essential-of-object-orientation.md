@@ -1,5 +1,5 @@
 ---
-layout: single
+layout: post
 title:  "객체지향의 사실과 오해"
 date:   2019-05-24 09:00:59 +0900
 categories: etc

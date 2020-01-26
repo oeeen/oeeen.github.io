@@ -1,5 +1,5 @@
 ---
-layout: single
+layout: post
 title:  "나의 웹 어플리케이션을 배포해보자(with Jenkins, Docker) - 1"
 date:   2019-08-09 00:30:59 +0900
 classes: wide

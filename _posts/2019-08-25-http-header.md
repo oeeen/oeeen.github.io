@@ -1,5 +1,5 @@
 ---
-layout: single
+layout: post
 title:  "HTTP Header"
 date:   2019-08-25 20:00:59 +0900
 classes: wide

@@ -1,5 +1,5 @@
 ---
-layout: single
+layout: post
 title:  "RESTful API"
 date:   2019-08-24 15:00:59 +0900
 classes: wide

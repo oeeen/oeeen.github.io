@@ -1,5 +1,5 @@
 ---
-layout: single
+layout: post
 title:  "Blog Introduction"
 date:   2019-07-24 09:01:59 +0900
 categories: etc

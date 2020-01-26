@@ -1,5 +1,5 @@
 ---
-layout: single
+layout: post
 title:  "Networking with standalone containers"
 date:   2019-12-01 17:50:59 +0900
 classes: wide

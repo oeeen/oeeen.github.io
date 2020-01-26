@@ -1,5 +1,5 @@
 ---
-layout: single
+layout: post
 title:  "쿠키, 세션"
 date:   2019-09-28 18:00:00 +0900
 classes: wide
