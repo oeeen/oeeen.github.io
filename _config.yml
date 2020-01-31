@@ -24,11 +24,11 @@ title:                 SMJ Blog
 # A short description (~150 chars) of the page used for the meta description tag.
 # Can use markdown, but no more than one paragraph (enforced by `>`)
 description:           >
-  "BackEnd Developer"
+  BackEnd Developer
 
 # A shorter description for the sidebar.
 tagline:               >
-  "BackEnd Developer"
+  블로그 테마 변경 중입니다.
 
 # A list of keywords for your blog
 keywords:              []
