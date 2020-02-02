@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title:  "Pipeline Syntax - Scripted pipeline"
 date:   2020-01-25 18:50:59 +0900
 classes: wide

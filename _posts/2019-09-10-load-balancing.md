@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title:  "부하 분산 관련 정리"
 date:   2019-09-10 18:00:59 +0900
 classes: wide

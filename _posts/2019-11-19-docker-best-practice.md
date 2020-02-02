@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title:  "Best practices for writing Dockerfiles"
 date:   2019-11-19 18:55:59 +0900
 classes: wide

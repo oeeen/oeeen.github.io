@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title:  "ProGit 정리 - Git Remote"
 date:   2019-07-31 23:00:00 +0900
 classes: wide

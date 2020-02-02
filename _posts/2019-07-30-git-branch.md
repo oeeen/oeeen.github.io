@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title:  "ProGit 정리 - Git Branch"
 date:   2019-07-30 23:00:00 +0900
 classes: wide

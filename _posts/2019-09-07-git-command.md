@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title:  "ProGit 정리 - 대화형 명령 / Stashing & Cleaning"
 date:   2019-09-07 17:00:00 +0900
 classes: wide

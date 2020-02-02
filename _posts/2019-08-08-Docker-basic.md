@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title:  "Docker Basic"
 date:   2019-08-07 17:30:59 +0900
 classes: wide

@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title:  "Git Rebase"
 date:   2019-10-08 23:30:00 +0900
 classes: wide

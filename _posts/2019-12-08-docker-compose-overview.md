@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title:  "Overview of Docker Compose"
 date:   2019-12-08 12:50:59 +0900
 classes: wide

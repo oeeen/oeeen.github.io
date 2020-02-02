@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title:  "데메테르의 법칙(Law of Demeter)"
 date:   2019-07-03 15:01:59 +0900
 categories: etc
