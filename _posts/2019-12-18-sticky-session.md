@@ -9,8 +9,6 @@ toc: true
 toc_sticky: true
 ---
 
-Sticky Session 과 Session Clustering이라는 개념이 나오게 된 배경
-
 ## 배경
 
 Sticky Session 과 Session Clustering 이라는 개념은 왜 나왔을까?
