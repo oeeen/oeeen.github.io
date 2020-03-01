@@ -45,9 +45,13 @@ plugins: # previsously gems
   - jekyll-paginate
 feed:
   path: feed.xml
+disqus:
+  shortname:  oeeen-github-blog
+google_analytics: UA-144547025-1
+copyright: "2020, Martin"
 
 # Pagination - https://jekyllrb.com/docs/pagination/
-paginate: 5
+paginate: 10
 paginate_path: /page:num/
 
 # Exclude from processing.
