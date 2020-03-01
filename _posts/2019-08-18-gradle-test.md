@@ -1,5 +1,5 @@
 ---
-layout: single
+layout: post
 title:  "Gradle로 빌드 및 배포 시 Test"
 date:   2019-08-18 01:00:59 +0900
 classes: wide

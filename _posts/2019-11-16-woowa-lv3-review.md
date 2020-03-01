@@ -1,5 +1,5 @@
 ---
-layout: single
+layout: post
 title:  "[우아한테크코스] Lv.3 회고"
 date:   2019-11-16 20:23:59 +0900
 classes: wide

@@ -1,5 +1,5 @@
 ---
-layout: single
+layout: post
 title:  "Entity와 VO"
 date:   2019-08-13 23:00:59 +0900
 classes: wide

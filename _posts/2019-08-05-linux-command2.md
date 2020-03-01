@@ -1,5 +1,5 @@
 ---
-layout: single
+layout: post
 title:  "Linux Command Line 2"
 date:   2019-08-05 01:00:00 +0900
 classes: wide

@@ -1,5 +1,5 @@
 ---
-layout: single
+layout: post
 title:  "쿠버네티스 알아보기 - 1"
 date:   2019-10-07 20:55:59 +0900
 classes: wide

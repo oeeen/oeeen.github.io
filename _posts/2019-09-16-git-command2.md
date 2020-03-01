@@ -1,5 +1,5 @@
 ---
-layout: splash
+layout: post
 title:  "ProGit 정리 - 검색, 히스토리"
 date:   2019-09-16 23:00:00 +0900
 classes: wide

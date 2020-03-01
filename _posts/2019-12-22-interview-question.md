@@ -1,5 +1,5 @@
 ---
-layout: single
+layout: post
 title:  "면접 질문 리스트"
 date:   2019-12-22 18:55:59 +0900
 classes: wide

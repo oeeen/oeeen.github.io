@@ -1,5 +1,5 @@
 ---
-layout: single
+layout: post
 title:  "Multithread 환경에서 Singleton"
 date:   2019-07-13 15:01:59 +0900
 categories: etc

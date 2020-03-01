@@ -1,5 +1,5 @@
 ---
-layout: single
+layout: post
 title:  "프로세스 vs. 쓰레드"
 date:   2019-09-23 19:55:59 +0900
 classes: wide
