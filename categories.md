@@ -1,6 +1,5 @@
 ---
+title: Category Archive
 layout: categories
 permalink: /categories/
-title: "Archive"
-author_profile: true
 ---
