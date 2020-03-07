@@ -4,8 +4,6 @@ title:  "Docker Basic"
 date:   2019-08-07 17:30:59 +0900
 classes: wide
 categories: web
-toc: true
-toc_sticky: true
 ---
 
 ## Docker Basic
