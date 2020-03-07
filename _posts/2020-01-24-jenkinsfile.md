@@ -5,8 +5,6 @@ date:   2020-01-24 12:50:59 +0900
 classes: wide
 categories: etc
 tags: jenkins
-toc: true
-toc_sticky: true
 ---
 
 Jenkinsfile에 대한 작성 문서를 제 마음대로 번역한 문서입니다. 제 생각에 불필요하다고 생각하는 말은 제거하고, 가끔가다 제 생각이 몇 군데 들어있습니다. 정확한 정보를 원하시는 분들은 [공식문서](https://jenkins.io/doc/book/pipeline/jenkinsfile/)를 참고해주시면 감사하겠습니다.
