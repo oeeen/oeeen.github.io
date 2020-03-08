@@ -198,7 +198,6 @@ Java Backend 개발자 면접 때 나온 질문 리스트 정리입니다. 계�
 
 ### Javascript 관련 질문
 
-1. 프로젝트에서 js 뭐 쓰셨죠? (아마 ES5, ES6 뭐썼는지에 대한 질문이었던듯..)
-2. ES6 랑 ES5 차이를 설명해주세요.
-3. const 가 뭔가요?
-4. function() 이랑 arrow function이랑 차이가 뭔가요? 어떤 기준에서 각각 사용하셨나요?
+1. ES6 랑 ES5 차이를 설명해주세요.
+2. const 가 뭔가요?
+3. function() 이랑 arrow function이랑 차이가 뭔가요? 어떤 기준에서 각각 사용하셨나요?
