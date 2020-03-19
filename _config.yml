@@ -51,10 +51,8 @@ google_analytics: UA-144547025-1
 copyright: "2020, Martin"
 
 # Pagination - https://jekyllrb.com/docs/pagination/
-permalink: /:categories/:title/
-paginate: 5
+paginate: 10
 paginate_path: /page:num/
-timezone: Asia/Seoul
 
 # Exclude from processing.
 exclude:
@@ -89,7 +87,3 @@ defaults:
     values:
       layout: post
       read_time: true
-      comments: true
-      share: false
-      related: true
-    paginate: true
