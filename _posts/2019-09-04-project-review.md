@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title:  "Mini Project Review"
 date:   2019-09-04 15:00:59 +0900
 classes: wide

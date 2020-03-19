@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title:  "Continuous Integration"
 date:   2019-09-06 23s:00:59 +0900
 classes: wide

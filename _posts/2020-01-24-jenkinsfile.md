@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title:  "Jenkinsfile"
 date:   2020-01-24 12:50:59 +0900
 classes: wide

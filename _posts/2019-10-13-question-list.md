@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title:  "1일 1질문, TIL(10월)"
 date:   2019-10-13 23:00:59 +0900
 classes: wide

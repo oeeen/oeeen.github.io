@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title:  "상속보다는 컴포지션을 사용하라"
 date:   2019-10-07 22:00:00 +0900
 classes: wide

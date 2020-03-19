@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title:  "Linux 네트워킹"
 date:   2019-09-14 23:00:59 +0900
 classes: wide

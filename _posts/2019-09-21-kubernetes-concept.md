@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title:  "쿠버네티스 개념"
 date:   2019-09-21 20:55:59 +0900
 classes: wide

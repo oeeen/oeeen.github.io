@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title:  "TIL(11월)"
 date:   2019-11-01 23:00:59 +0900
 classes: wide
