@@ -115,18 +115,6 @@ CLI는 Docker REST API를 사용해서 스크립팅 or 직접 CLI 명령으로 D
 
 #### Namespaces
 
-Docker uses a technology called namespaces to provide the isolated workspace called the container. When you run a container, Docker creates a set of namespaces for that container.
-
-These namespaces provide a layer of isolation. Each aspect of a container runs in a separate namespace and its access is limited to that namespace.
-
-Docker Engine uses namespaces such as the following on Linux:
-
-- The pid namespace: Process isolation (PID: Process ID).
-- The net namespace: Managing network interfaces (NET: Networking).
-- The ipc namespace: Managing access to IPC resources (IPC: InterProcess Communication).
-- The mnt namespace: Managing filesystem mount points (MNT: Mount).
-- The uts namespace: Isolating kernel and version identifiers. (UTS: Unix Timesharing System).
-
 도커는 컨테이너라는 격리된 작업공간을 제공하기 위해 네임스페이스라는 기술을 사용한다.컨테이너를 실행할 때, 도커는 그 컨테이너를 위한 네임스페이스 Set을 만든다. 그 네임스페이스는 격리된 layer를 제공한다. 컨테이너의 각 측면은 별도의 네임스페이스에서 실행되고 그 네임스페이스로 접근이 제한된다.
 
 도커 엔진은 리눅스에서 다음과 같은 네임스페이스를 사용한다.
