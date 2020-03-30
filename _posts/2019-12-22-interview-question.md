@@ -223,7 +223,7 @@ Java Backend 개발자 면접 때 나온 질문 리스트 정리입니다. 계�
 ### Kotlin 관련 질문
 
 1. Kotlin과 Java의 차이점과 kotlin은 어떤 장점이 있는지?
-2. ㄷKotlin의 coroutine?
+2. Kotlin의 coroutine?
 
 ### Javascript 관련 질문
 
