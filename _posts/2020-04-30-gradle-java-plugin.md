@@ -9,7 +9,7 @@ toc: true
 toc_sticky: true
 ---
 
-Gradle 공식 문서의 Java Plugin 부분을 번역한 내용입니다. 제 개인의 의견 및 오역이 있을 수 있습니다. 잘못된 부분이나 다른 의견이 있으시면 지적과 관심 부탁드립니다.
+Gradle 공식 문서의 Java Plugin 부분을 번역한 내용입니다. 오역이 있을 수 있습니다. 잘못된 부분이나 다른 의견이 있으시면 지적 부탁드립니다.
 
 ## The Java Plugin
 
@@ -143,6 +143,62 @@ Java 플러그인은 Java 플러그인이 자동으로 적용하는 [*Base Plugi
    - Depends on: ConfigName으로 명명되어 첨부된 아티팩트를 생성하는 모든 태스크
    - 특정 설정을 위한 아티팩트를 모으고 업로드 한다. Base Plugin에 의해 추가된다.
 
-### Project layout
+![Java Plugin Task](/assets/img/gradle_java_plugin/javaPluginTasks.png)
 
-The Java plugin assumes the project layout shown below. None of these directories need to exist or have anything in them. The Java plugin will compile whatever it finds, and handles anything which is missing.
+### 프로젝트 구조
+
+자바 플러그인은 프로젝트의 구조가 아래 나온 것처럼 되어 있다고 가정한다. 이 디렉토리들은 뭘 가지고 있을 필요는 없다. 자바 플러그인은 뭐든 찾으면 컴파일 할 것이고 놓친 것은 모두 처리 할 것이다.
+
+1. src/main/java
+   - 프로덕션 자바 코드
+2. src/main/resources
+   - 프로덕션 리소스, xml이나 properties 파일
+3. src/test/java
+   - Test 자바 코드
+4. src/test/resources
+   - Test 리소스
+5. src/sourceSet/java
+   - SourceSet으로 명명된 소스들의 집합을 위한 자바 소스
+6. src/sourceSet/resources
+   - SourceSet으로 명명된 소스들의 집합을 위한 리소스
+
+적합한 소스 집합을 설정함으로써 프로젝트 구조를 설정할 수 있다. 이는 아래 섹션에서 좀 더 자세히 다룬다. 메인 자바 소스와 리소스 디렉토리를 변경하기 위한 간단한 예시가 아래에 있다.
+
+build.gradle
+
+```groovy
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/java']
+        }
+        resources {
+            srcDirs = ['src/resources']
+        }
+    }
+}
+```
+
+build.gradle.kts
+
+```kotlin
+sourceSets {
+    main {
+        java {
+            setSrcDirs(listOf("src/java"))
+        }
+        resources {
+            setSrcDirs(listOf("src/resources"))
+        }
+    }
+}
+```
+
+### Source sets
+
+플러그인은 다음과 같은 소스 집합들을 추가한다.
+
+1. main
+   - 프로젝트의 프로덕션 소스코드를 포함한다.
+2. test
+   - JUnit이나 TestNG를 사용하는 테스트 소스코드를 포함한다. 일반적으로 유닛테스트지만 동일한 컴파일, 런타임 클래스패스를 공유한다면 이 소스셋에는 어떤 테스트도 포함될 수 있다.
