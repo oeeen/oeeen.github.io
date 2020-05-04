@@ -1,6 +1,6 @@
 ---
 layout: single
-title:  "Gradle - Java Plugin(작성중)"
+title:  "Gradle - Java Plugin"
 date:   2020-04-30 18:50:59 +0900
 classes: wide
 categories: etc
@@ -202,3 +202,59 @@ sourceSets {
    - 프로젝트의 프로덕션 소스코드를 포함한다.
 2. test
    - JUnit이나 TestNG를 사용하는 테스트 소스코드를 포함한다. 일반적으로 유닛테스트지만 동일한 컴파일, 런타임 클래스패스를 공유한다면 이 소스셋에는 어떤 테스트도 포함될 수 있다.
+
+### Dependency Management
+
+자바 플러그인은 프로젝트에 아래 나온 것처럼 많은 의존성 설정을 추가할 수 있다. `compileJava`와 `test` 같은 태스크들은 이 설정들 중 한개 이상을 사용하여 그것들을 사용하면서 적합한 파일을 얻는다. 예를 들어 컴파일, 런타임 클래스 패스에 해당 파일을 배치한다.
+
+1. ~~compile~~(Deprecated)
+   - 컴파일 타임 의존성, `implementation`로 대체됨
+2. implementation extends compile
+   - 해당 의존성만 implementation
+3. compileOnly
+   - 컴파일 타임에만 의존성 사용, 런타임에 사용하지 않음
+4. compileClasspath extends compile, compileOnly, implementation
+   - 컴파일 클래스패스, 소스를 컴파일할 때 사용한다. `compileJava` 태스크에 의해 사용됨.
+5. annotationProcessor
+   - 컴파일 중에 사용되는 어노테이션 프로세서
+6. ~~runtime~~(Deprecated) extends compile
+   - 런타임 의존성, `runtimeOnly`로 대체됨
+7. runtimeOnly
+   - 런타임에만 의존성 사용
+8. runtimeClasspath extends runtimeOnly, runtime, implementation
+   - 런타임 클래스패스에는 `implementation`과 `runtimeOnly` 요소들이 포함되어 있다.
+9. ~~testCompile~~(Deprecated) extends compile
+   - 테스트를 컴파일하기 위한 추가 의존성, `testImplementation`로 대체됨
+10. testImplementation extends testCompile, implementation
+    - 테스트만을 위한 의존성 구현
+11. testCompileOnly
+    - 테스트들을 컴파일 하기 위한 추가 의존성, 런타임에 사용되지 않는다.
+12. testCompileClasspath extends testCompile, testCompileOnly, testImplementation
+    - 테스트 컴파일 클래스패스, 테스트 소스를 컴파일할 때 사용된다. `compileTestJava` 태스크에 의해 사용됨.
+13. ~~testRuntime~~(Deprecated) extends runtime, testCompile
+    - 테스트 running을 위한 추가 의존성, `testRuntimeOnly`로 대체됨
+14. testRuntimeOnly extends runtimeOnly
+    - 테스트 러닝을 위한 RuntimeOnly 의존성
+15. testRuntimeClasspath extends testRuntimeOnly, testRuntime, testImplementation
+    - 테스트 러닝을 위한 런타임 클래스 패스, `test` 태스크에 의해 사용됨.
+16. archives
+    - 이 프로젝트에 의해 생성되는 아티팩트들(예를 들어 jar), `uploadArchives` 태스크에 의해 사용됨.
+17. default extends runtimeClasspath
+    - 이 프로젝트에 프로젝트 의존성에 의해 사용 된다. 런타임에 이 프로젝트가 필요로 하는 아티팩트와 의존성을 포함한다.
+
+아래 그림은 main과 test의 의존성 설정을 각각 보여준다.
+
+- 회색 글씨 - deprecated
+- 초록 바탕 - 구성에 대한 의존성 선언 가능
+- 회색-파란색 바탕 — 태스크 별로 각각 따로 사용하기 위해서 있다. 의존성을 선언하기 위한 것이 아님
+- 하늘색 바탕 - 태스크
+
+![Java main configuration](/assets/img/gradle_java_plugin/java-main-configurations.png)
+
+![Java test configuartion](/assets/img/gradle_java_plugin/java-test-configurations.png)
+
+뒷 부분 내용은 생략합니다. (Incremental Java compilation, Incremental annotation processing, Compilation avoidance)
+
+### 원본 출처
+
+- [Gradle - Java Plugin](https://docs.gradle.org/current/userguide/java_plugin.html)
