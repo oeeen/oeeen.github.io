@@ -49,7 +49,7 @@ public class User {
 위 코드에서 이어 간다면,
 
 ```java
-@EqualsAndHashCode
+@EqualsAndHashCode(of = "email")
 public class Email {
     private static final String EMAIL_REGEX = "^[_a-zA-Z0-9-.]+@[.a-zA-Z0-9-]+\\.[a-zA-Z]+$";
 
@@ -79,13 +79,86 @@ public class MovedCar {
         this.currentPosition = currentPosition;
     }
 
-    // equals & hashcode
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MovedCar movedCar = (MovedCar) o;
+        return currentPosition == movedCar.currentPosition &&
+                Objects.equals(name, movedCar.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, currentPosition);
+    }
 }
 ```
 
 `MovedCar car1 = new MovedCar("MyCar", 10);`
 
 `MovedCar car2 = new MovedCar("MyCar", 10);` 이 경우 car1 과 car2는 동일한 객체다.
+
+테스트 코드로 다음을 확인해볼 수 있다.
+
+```java
+public class MovedCarTest {
+    @Test
+    @DisplayName("동등성 확인")
+    void equal() {
+        MovedCar car1 = new MovedCar("MyCar", 10);
+        MovedCar car2 = new MovedCar("MyCar", 10);
+
+        assertEquals(car1, car2);
+//        assertSame(car1, car2);
+    }
+}
+```
+
+실제 객체 레퍼런스 자체는 다르지만(동일성), 동등한 객체(동등성)임을 알 수 있다.(위 코드에서 assertSame 부분의 주석을 풀면 테스트 실패가 된다.)
+
+`assertEqauls(expected, actual)` 부분을 본다면, 아래와 같다.
+
+```java
+// Assertions.java
+public static void assertEquals(Object expected, Object actual) {
+    AssertEquals.assertEquals(expected, actual);
+}
+
+// AssertEquals.java
+static void assertEquals(Object expected, Object actual) {
+    assertEquals(expected, actual, (String) null);
+}
+
+// AssertionUtils.java
+static boolean objectsAreEqual(Object obj1, Object obj2) {
+    if (obj1 == null) {
+        return (obj2 == null);
+    }
+    return obj1.equals(obj2);
+}
+```
+
+위와 같이 equals로 비교하고 있다는 것을 알 수 있다. 반면 `assertSame(expected, actual)`을 따라가보면 아래와 같다.
+
+```java
+// Assertions.java
+public static void assertSame(Object expected, Object actual) {
+    AssertSame.assertSame(expected, actual);
+}
+
+// AssertSame.java
+static void assertSame(Object expected, Object actual) {
+    assertSame(expected, actual, (String) null);
+}
+static void assertSame(Object expected, Object actual, String message) {
+    if (expected != actual) {
+        failNotSame(expected, actual, message);
+    }
+}
+```
+
+위 처럼 `!=`로 비교함을 알 수 있다.
 
 ## 왜 VO와 Entity의 구분이 중요할까
 
