@@ -19,7 +19,7 @@ Spring Boot 기반으로 Spring Security를 사용하다보면, 시큐리티에�
 
 스프링은 DelegatingFilterProxy라는 필터 구현체를 제공하는데, 이는 Servlet Container의 생명 주기와 스프링의 ApplicationContext사이를 연결해주는 역할을 한다. 서블릿 컨테이너는 서블릿 표준에 따라 필터를 등록하기 때문에, 스프링에서 정의된 빈들을 인지하지 못한다. DelegatingFilterProxy는 표준 서블릿 컨테이너 메커니즘을 통해 필터를 등록하지만, 그 필터로 구현된 스프링 빈에게 모든 일을 위임한다.
 
-아래 그림은 필터와 필터체인에 어떻게 적용하는지 나타내는 그림이다.(출처: Spring Security 공식문서)
+아래 그림은 필터와 필터체인에 어떻게 적용하는지 나타내는 그림이다.(출처: [Spring Security 공식문서](https://docs.spring.io/spring-security/site/docs/current/reference/html5/#servlet-filters-review))
 
 ![DelegatingFilterProxy](/assets/img/spring_security_filter/delegatingfilterproxy.png)
 
