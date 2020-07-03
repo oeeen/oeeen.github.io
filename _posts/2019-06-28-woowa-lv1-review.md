@@ -3,7 +3,7 @@ layout: single
 title:  "[우아한테크코스] Lv.1 회고"
 date:   2019-06-28 23:00:59 +0900
 classes: wide
-categories: reflection
+categories: retrospective
 tags: techcourse
 toc: true
 toc_sticky: true

@@ -11,4 +11,4 @@ main:
   - title: "etc"
     url: /etc/
   - title: "회고"
-    url: /reflection/
+    url: /retrospective/

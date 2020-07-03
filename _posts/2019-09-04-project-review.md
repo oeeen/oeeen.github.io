@@ -3,7 +3,7 @@ layout: single
 title:  "Mini Project Review"
 date:   2019-09-04 15:00:59 +0900
 classes: wide
-categories: reflection
+categories: retrospective
 tags: project
 toc: true
 toc_sticky: true
