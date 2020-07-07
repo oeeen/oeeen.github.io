@@ -1,6 +1,6 @@
 ---
 layout: single
-title:  "Spring Security Test 하기"
+title:  "Spring Security Test"
 date:   2020-07-03 22:30:59 +0900
 classes: wide
 categories: etc
